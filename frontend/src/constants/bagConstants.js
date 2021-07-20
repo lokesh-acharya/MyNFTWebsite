@@ -1,0 +1,3 @@
+export const BAG_SAVE_FILE1 = 'BAG_SAVE_FILE1';
+export const BAG_SAVE_FILE2 = 'BAG_SAVE_FILE2';
+export const BAG_SAVE_FILE3 = 'BAG_SAVE_FILE3';
