@@ -4,15 +4,7 @@ export const awsToIPFS = async(filename) => {
 
   const aws = require('aws-sdk');
   const axios = require('axios');
-  //const fs = require('fs');
   const FormData = require('form-data');
-
-  // const s3AccessKeyId = 'AKIAXWHK6I3DFF2YJWU6';
-  // const s3AccessSecret = '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';
-  // const s3Region = 'ap-south-1';
-  // const s3Bucket = 'mynftwebuploads';
-  // const apiKey = 'ad6f958a2098f31d4b1e';
-  // const apiSecret = '16237782d8507734b1703e1142b323f9a99caec0a7a7f9082e280476f68f0b0f';
 
   const s3AccessKeyId = process.env.REACT_APP_ID;
   const s3AccessSecret = process.env.REACT_APP_SECRET;
@@ -25,24 +17,30 @@ export const awsToIPFS = async(filename) => {
   const fileName = filename;
   const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
 
-  let s3 = new aws.S3({
+  const s3 = new aws.S3({
     credentials: {
       secretAccessKey: s3AccessSecret,
       accessKeyId: s3AccessKeyId,
-      region: s3Region
-    }
+      region: s3Region,
+    },
   });
+
+  const params = {
+    Bucket: s3Bucket,
+    Key: fileName,
+  };
 
   // console.log(fileName);
   // console.log(s3);
 
-  const s3Stream = s3.getObject({ 
-    Bucket: s3Bucket,
-    Key: fileName
-  }, function(err, data) {
-    if (err) console.log(err, err.stack); // an error occurred
-    else     console.log(data);           // successful response
-  }).createReadStream();
+  const s3Stream = s3.getObject(params).createReadStream();
+  // const s3Stream = s3.getObject({ 
+  //   Bucket: s3Bucket,
+  //   Key: fileName
+  // }, function(err, data) {
+  //   if (err) console.log(err, err.stack); // an error occurred
+  //   else     console.log(data);           // successful response
+  // }).createReadStream();
 
   form.append('file', s3Stream, {
     filename: fileName //required or it fails
