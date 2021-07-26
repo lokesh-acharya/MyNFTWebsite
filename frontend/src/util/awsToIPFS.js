@@ -4,7 +4,7 @@ export const awsToIPFS = async(filename) => {
 
   const aws = require('aws-sdk');
   const axios = require('axios');
-  const fs = require('fs');
+  //const fs = require('fs');
   const FormData = require('form-data');
 
   // const s3AccessKeyId = 'AKIAXWHK6I3DFF2YJWU6';
@@ -14,12 +14,12 @@ export const awsToIPFS = async(filename) => {
   // const apiKey = 'ad6f958a2098f31d4b1e';
   // const apiSecret = '16237782d8507734b1703e1142b323f9a99caec0a7a7f9082e280476f68f0b0f';
 
-  const s3AccessKeyId = process.env.ID;
-  const s3AccessSecret = process.env.SECRET;
-  const s3Region = process.env.REGION;
-  const s3Bucket = process.env.BUCKET_NAME;
-  const apiKey = process.env.PINATA_KEY;
-  const apiSecret = process.env.PINATA_SECRET;
+  const s3AccessKeyId = process.env.REACT_APP_ID;
+  const s3AccessSecret = process.env.REACT_APP_SECRET;
+  const s3Region = process.env.REACT_APP_REGION;
+  const s3Bucket = process.env.REACT_APP_BUCKET_NAME;
+  const apiKey = process.env.REACT_APP_PINATA_KEY;
+  const apiSecret = process.env.REACT_APP_PINATA_SECRET;
 
   var form = new FormData();
   const fileName = filename;
@@ -33,13 +33,8 @@ export const awsToIPFS = async(filename) => {
     }
   });
 
-  console.log(fileName);
-  console.log(s3);
-
-  // const s3Stream = s3.getObject({
-  //   Bucket: s3Bucket,
-  //   Key: fileName
-  // }).createReadStream();
+  // console.log(fileName);
+  // console.log(s3);
 
   const s3Stream = s3.getObject({ 
     Bucket: s3Bucket,
@@ -73,42 +68,3 @@ export const awsToIPFS = async(filename) => {
       return { sucess: false, data: JSON.stringify(error) };
     });
 };
-
-export const awsToIPFS1 = async(filename) => {
-  const ipfsClient = require('ipfs-http-client');
-  const AWS = require('aws-sdk');
-  const fileName = filename;
-  const s3AccessKeyId = 'AKIAXWHK6I3DFF2YJWU6';
-  const s3AccessSecret = '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';
-  const s3Region = 'ap-south-1';
-  const s3Bucket = 'mynftwebuploads';  
-
-  const s3 = new AWS.S3({
-    credentials: {
-      accessKeyId: s3AccessKeyId,
-      secretAccessKey: s3AccessSecret,
-      region: s3Region
-    }
-  });
-
-  let s3Stream = s3.getObject({
-    Bucket: s3Bucket,
-    Key: fileName
-  }).createReadStream();
-
-  const tempIPFS = ipfsClient({
-    host: 'localhost',
-    port: 5001,
-    protocol: 'http'
-  });
-
-  tempIPFS.add({
-    content: s3Stream
-  }, {
-    cidVersion: 1
-  }).then((res) => {
-    return { sucess: true, data: JSON.stringify(res.data) };
-  }).catch((e) => {
-    return { sucess: true, data: JSON.stringify(e.message) };
-  });
-}
