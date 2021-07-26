@@ -4,7 +4,8 @@ import Mint from '../models/mintModel.js';
 import User from '../models/userModel.js';
 import {
   isAdmin,
-  isAuth
+  isAuth,
+  awsToIPFS
 } from '../utils.js';
 
 const mintRouter = express.Router();
@@ -120,6 +121,25 @@ mintRouter.put(
       res.send({ message: 'Token Minted', mint: updatedMint });
     } else {
       res.status(404).send({ message: 'Mint Request Not Found' });
+    }
+  })
+);
+
+mintRouter.get(
+  '/:id/ifps',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const mint = await Mint.findById(req.params.id);
+    if(mint) {
+      const { sucess, data } = awsToIPFS(mint.file3.file);
+      if(sucess) {
+        res.send({ sucess: true, message: "aws to ipfs done!", result: data });
+      } else {
+        res.status(500).send({ sucess: false, message: data});
+      }
+    } else {
+      res.status(404).send({ sucess: false, message: 'Mint Request Not Found' });
     }
   })
 );
