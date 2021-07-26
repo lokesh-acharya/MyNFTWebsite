@@ -10,8 +10,8 @@ function Download(fileKey) {
   const AWS = require('aws-sdk');
   const s3 = new AWS.S3({
     credentials: {
-      secretAccessKey: Config.SECRET_IAM,
-      accessKeyId: Config.ID_IAM,
+      secretAccessKey: Config.SECRET,
+      accessKeyId: Config.ID,
       region: Config.REGION,
     },
   });

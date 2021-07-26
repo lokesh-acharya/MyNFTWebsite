@@ -18,8 +18,8 @@ function Upload() {
 
   const s3 = new aws.S3({
     credentials: {
-      secretAccessKey: process.env.SECRET_IAM,
-      accessKeyId: process.env.ID_IAM,
+      secretAccessKey: process.env.SECRET,
+      accessKeyId: process.env.ID,
       region: process.env.REGION,
     }
   });
