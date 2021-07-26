@@ -22,9 +22,14 @@ export default function MintScreen(props) {
   const { mint, loading, error } = mintDetails;
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
-
+  
   const ipfsDetails = useSelector((state) => state.ipfs);
-  const { ipfsSuccess, ipfsLoading, ipfsError, ipfsResult } = ipfsDetails;
+  const { 
+    sucess: ipfsSuccess,
+    loading: ipfsLoading, 
+    error: ipfsError, 
+    result: ipfsResult 
+  } = ipfsDetails;
 
   const mintMint1 = useSelector((state) => state.mintMint1);
   const {
@@ -110,7 +115,8 @@ export default function MintScreen(props) {
   // };
 
   const onMintPressed = async () => {
-    dispatch(getIPFS(mint.file3.file));        
+    dispatch(getIPFS(mint.file3.file));
+    while(ipfsLoading) continue;
     if(ipfsSuccess) {
       const name = mint.file3.name;
       const description = mint.file3.desc;
