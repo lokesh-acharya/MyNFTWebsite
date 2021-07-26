@@ -1,7 +1,6 @@
 require('dotenv').config();
 
-export const awsToIPFS = async(filename) => {  
-
+export const awsToIPFS = async(filename) => {
   const aws = require('aws-sdk');
   const axios = require('axios');
   const FormData = require('form-data');

@@ -95,7 +95,7 @@ function App() {
           <Route path="/file2" component={FileTwoScreen}></Route>
           <Route path="/file3" component={FileThreeScreen}></Route>
           <Route path="/placemint" component={PlaceMintScreen}></Route>
-          <Route path="/nft/:id" component={NFTScreen}></Route>
+          <Route path="/:file" component={MintScreen}></Route>
           <PrivateRoute
             path="/profile"
             component={ProfileScreen}
