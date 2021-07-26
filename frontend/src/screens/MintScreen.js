@@ -115,7 +115,7 @@ export default function MintScreen(props) {
   // };
 
   const onMintPressed = async () => {
-    let ipfsResult = getIPFS(mint.file3.file);    
+    let ipfsResult = await getIPFS(userInfo, mint.file3.file);   
     if(ipfsResult.success) {
       const name = mint.file3.name;
       const description = mint.file3.desc;

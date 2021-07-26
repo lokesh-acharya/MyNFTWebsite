@@ -42,11 +42,12 @@ export const viewFile = (fileName) => async (dispatch, getState) => {
   }
 };
 
-export const getIPFS = (mintId) => async(getState) => {
+//export const getIPFS = async(mintId, getState) => {
+export const getIPFS = async(userInfo, mintId) => {
   // dispatch({ type: IPFS_REQUEST, payload: mintId });
-  const {
-    userSignin: { userInfo },
-  } = getState();
+  // const {
+  //   userSignin: { userInfo },
+  // } = getState();
   try {
     const { data } = await Axios.get(
       `/api/mints/${mintId}/ipfs`,
