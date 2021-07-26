@@ -42,8 +42,8 @@ export const viewFile = (fileName) => async (dispatch, getState) => {
   }
 };
 
-export const getIPFS = (mintId) => async(dispatch, getState) => {
-  dispatch({ type: IPFS_REQUEST, payload: mintId });
+export const getIPFS = (mintId) => async(getState) => {
+  // dispatch({ type: IPFS_REQUEST, payload: mintId });
   const {
     userSignin: { userInfo },
   } = getState();
@@ -55,14 +55,14 @@ export const getIPFS = (mintId) => async(dispatch, getState) => {
         headers: { Authorization: `Bearer ${userInfo.token}` },
       }
     );
-    dispatch({ type: IPFS_REQUEST_SUCCESS, payload: data });
-    // return { success: true, result: data};
+    // dispatch({ type: IPFS_REQUEST_SUCCESS, payload: data });
+    return { success: true, result: data};
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    dispatch({ type: IPFS_REQUEST_FAIL, payload: message });
-    // return { success: false, result: message };
+    // dispatch({ type: IPFS_REQUEST_FAIL, payload: message });
+    return { success: false, result: message };
   }
 };

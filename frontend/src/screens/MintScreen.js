@@ -23,13 +23,13 @@ export default function MintScreen(props) {
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
   
-  const ipfsDetails = useSelector((state) => state.ipfs);
-  const { 
-    sucess: ipfsSuccess,
-    loading: ipfsLoading, 
-    error: ipfsError, 
-    result: ipfsResult 
-  } = ipfsDetails;
+  // const ipfsDetails = useSelector((state) => state.ipfs);
+  // const { 
+  //   sucess: ipfsSuccess,
+  //   loading: ipfsLoading,
+  //   error: ipfsError,
+  //   result: ipfsResult 
+  // } = ipfsDetails;
 
   const mintMint1 = useSelector((state) => state.mintMint1);
   const {
@@ -115,9 +115,8 @@ export default function MintScreen(props) {
   // };
 
   const onMintPressed = async () => {
-    dispatch(getIPFS(mint.file3.file));
-    while(ipfsLoading) continue;
-    if(ipfsSuccess) {
+    let ipfsResult = getIPFS(mint.file3.file);    
+    if(ipfsResult.success) {
       const name = mint.file3.name;
       const description = mint.file3.desc;
       const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.IpfsHash}`;
@@ -133,7 +132,7 @@ export default function MintScreen(props) {
       }
     }
     else {
-      console.log(ipfsError);
+      console.log(ipfsResult.result);
     }
   };
 
