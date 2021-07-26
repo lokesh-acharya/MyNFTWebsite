@@ -11,13 +11,14 @@ import downloadRouter from './routers/downloadRouter.js';
 import mintRouter from './routers/mintRouter.js';
 import cors from 'cors';
 import Config from './config.js';
+import sslRedirect from 'heroku-ssl-redirect';
 
 dotenv.config();
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-//app.use(bodyParser());
+app.use(sslRedirect());
 app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect(Config.MONGODB_URL || 'mongodb://localhost/amazona', {
