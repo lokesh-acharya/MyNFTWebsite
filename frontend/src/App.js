@@ -86,15 +86,16 @@ function App() {
             )}
           </div>
         </header>        
-        <main>          
-          <Route path="/signin"       component={SigninScreen}>     </Route>
-          <Route path="/register"     component={RegisterScreen}>   </Route>
-          <Route path="/mint/:id"     component={MintScreen}>       </Route>
-          <Route path="/minthistory"  component={MintHistoryScreen}></Route>
-          <Route path="/file1"        component={FileOneScreen}>    </Route>
-          <Route path="/file2"        component={FileTwoScreen}>    </Route>
-          <Route path="/file3"        component={FileThreeScreen}>  </Route>
-          <Route path="/placemint"    component={PlaceMintScreen}>  </Route>          
+        <main>
+          <Route path="/signin" component={SigninScreen}></Route>
+          <Route path="/register" component={RegisterScreen}></Route>
+          <Route path="/mint/:id" component={MintScreen}></Route>
+          <Route path="/minthistory" component={MintHistoryScreen}></Route>
+          <Route path="/file1" component={FileOneScreen}></Route>
+          <Route path="/file2" component={FileTwoScreen}></Route>
+          <Route path="/file3" component={FileThreeScreen}></Route>
+          <Route path="/placemint" component={PlaceMintScreen}></Route>
+          <Route path="/nft/:id" component={NFTScreen}></Route>
           <PrivateRoute
             path="/profile"
             component={ProfileScreen}
