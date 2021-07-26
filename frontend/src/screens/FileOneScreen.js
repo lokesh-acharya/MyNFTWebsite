@@ -74,7 +74,7 @@ export default function FileOneScreen(props) {
           server=
           {
             {
-              url: `/api/uploads/${userInfo._id}/${random}`,
+              url: `http://localhost:5000/api/upload/${userInfo._id}/${random}`,
               process: {
                 headers: {
                   'Authorization': `Bearer ${userInfo.token}`,                  

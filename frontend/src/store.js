@@ -24,10 +24,11 @@ import {
 } from './reducers/userReducers';
 
 import {
+  ipfsReducer,
   viewFileReducer
 } from './reducers/helperReducers';
 
-const userInfo = Cookie.getJSON("userInfo") || null
+const userInfo = Cookie.getJSON("userInfo") || null;
 
 const initialState = {
   // userSignin: {
@@ -65,7 +66,8 @@ const reducer = combineReducers({
   userList: userListReducer,
   userDelete: userDeleteReducer,
   mintSummary: mintSummaryReducer,
-  viewFile: viewFileReducer
+  viewFile: viewFileReducer,
+  ipfs : ipfsReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -61,7 +61,6 @@ mintRouter.post(
   '/',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-
     const mint = new Mint({
       user: req.user._id,
       file1: req.body.file1,
@@ -109,14 +108,18 @@ mintRouter.put(
   isAdmin,
   expressAsyncHandler(async (req, res) => {
     const mint = await Mint.findById(req.params.id);
+    const assetURL = req.body.assetURL;
+    const transaction = req.body.tranaction;
     if (mint) {
+      
       mint.isMinted = true;
       mint.mintedAt = Date.now();
-
+      mint.assetURL = assetURL;
+      mint.tranaction = transaction;    
       const updatedMint = await mint.save();
       res.send({ message: 'Token Minted', mint: updatedMint });
     } else {
-      res.status(404).send({ message: 'Mint Request Found' });
+      res.status(404).send({ message: 'Mint Request Not Found' });
     }
   })
 );

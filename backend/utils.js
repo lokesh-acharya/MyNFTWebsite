@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
-import config from './config';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const generateToken = (user) => {
   return jwt.sign(
@@ -9,7 +11,7 @@ export const generateToken = (user) => {
       email: user.email,
       isAdmin: user.isAdmin
     },
-    config.JWT_SECRET,
+    process.env.JWT_SECRET || 'iamthegreatest',
     {
       expiresIn: '24h',
     }
@@ -22,7 +24,7 @@ export const isAuth = (req, res, next) => {
     const token = authorization.slice(7, authorization.length); // Bearer XXXXXX
     jwt.verify(
       token,
-      config.JWT_SECRET,
+      process.env.JWT_SECRET || 'iamthegreatest',
       (err, decode) => {
         if (err) {
           res.status(401).send({ message: 'Invalid Token' });

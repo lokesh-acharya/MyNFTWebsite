@@ -35,8 +35,7 @@ export const createMint = (mint) => async (dispatch, getState) => {
     const {
       userSignin: { userInfo },
     } = getState();
-
-    const { data } = await Axios.post(`/api/mints`, mint, {
+    const { data } = await Axios.post(`http://localhost:5000/api/mints`, mint, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
       },
@@ -62,7 +61,7 @@ export const detailsMint = (mintId) => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.get(`/api/mints/${mintId}`, {
+    const { data } = await Axios.get(`http://localhost:5000/api/mints/${mintId}`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: MINT_DETAILS_SUCCESS, payload: data });
@@ -81,7 +80,7 @@ export const listMintMine = () => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.get(`/api/mints/mine`, {
+    const { data } = await Axios.get(`http://localhost:5000/api/mints/mine`, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
       },
@@ -102,7 +101,7 @@ export const listMints = () => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.get(`/api/mints`, {
+    const { data } = await Axios.get(`http://localhost:5000/api/mints`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     console.log(data);
@@ -122,7 +121,7 @@ export const deleteMint = (mintId) => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = Axios.delete(`/api/mints/${mintId}`, {
+    const { data } = Axios.delete(`http://localhost:5000/api/mints/${mintId}`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: MINT_DELETE_SUCCESS, payload: data });
@@ -135,15 +134,15 @@ export const deleteMint = (mintId) => async (dispatch, getState) => {
   }
 };
 
-export const mintMint = (mintId) => async (dispatch, getState) => {
+export const mintMint = (mintId, aseetURL, txDetails) => async (dispatch, getState) => {
   dispatch({ type: MINT_MINT_REQUEST, payload: mintId });
   const {
     userSignin: { userInfo },
   } = getState();
   try {
     const { data } = Axios.put(
-      `/api/mints/${mintId}/mint`,
-      {},
+      `http://localhost:5000/api/mints/${mintId}/mint`,
+      { assetURL: aseetURL, transction: txDetails },
       {
         headers: { Authorization: `Bearer ${userInfo.token}` },
       }
@@ -164,7 +163,7 @@ export const summaryMint = () => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.get(`/api/mints/summary`, {
+    const { data } = await Axios.get(`http://localhost:5000/api/mints/summary`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: MINT_SUMMARY_SUCCESS, payload: data });

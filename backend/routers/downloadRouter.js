@@ -1,34 +1,18 @@
 import express from 'express';
 import { isAuth } from '../utils.js';
-import Config from '../config';
-import dotenv, { config } from 'dotenv';
+import Config from '../config.js';
+import dotenv from 'dotenv';
 
 dotenv.config();
 const downloadRouter = express.Router();
 
-// downloadRouter.get('/:userId/:fileName', isAuth, function(req, res) { 
-//   // const path = `uploads/${req.params.userId}/${req.params.fileName}`;
-//   const path = `uploads/${req.params.fileName}`;
-//   try {
-//     res.download(path, function (err) {
-//       console.log(err);
-//     });
-//   } catch (err) {
-//     res.send(err);
-//     console.log(err);
-//   }
-// });
-
-downloadRouter.get('/:userId/:fileName', isAuth, function(req, res, next){
-  // download the file via aws s3 here
-  var fileKey = req.params.fileName;
-  
+function Download(fileKey) {
   const AWS = require('aws-sdk');
   const s3 = new AWS.S3({
     credentials: {
-        secretAccessKey: Config.SECRET,
-        accessKeyId: Config.ID,
-        region: "ap-south-1",
+      secretAccessKey: Config.SECRET_IAM,
+      accessKeyId: Config.ID_IAM,
+      region: Config.REGION,
     },
   });
 
@@ -36,9 +20,14 @@ downloadRouter.get('/:userId/:fileName', isAuth, function(req, res, next){
     Bucket: Config.BUCKET_NAME,
     Key: fileKey,
   };
+  return s3.getObject(params).createReadStream();
+}
 
+downloadRouter.get('/:userId/:fileName', isAuth, function(req, res, next){
+  // download the file via aws s3 here
+  var fileKey = req.params.fileName;
   res.attachment(fileKey);
-  var fileStream = s3.getObject(params).createReadStream();
+  var fileStream = Download(fileKey);
   fileStream.pipe(res);
 });
 

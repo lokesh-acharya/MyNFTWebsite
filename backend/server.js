@@ -10,7 +10,7 @@ import uploadRouter from './routers/uploadRouter.js';
 import downloadRouter from './routers/downloadRouter.js';
 import mintRouter from './routers/mintRouter.js';
 import cors from 'cors';
-import Config from './config';
+import Config from './config.js';
 
 dotenv.config();
 const app = express();
@@ -26,7 +26,7 @@ mongoose.connect(Config.MONGODB_URL || 'mongodb://localhost/amazona', {
   useCreateIndex: true,
 }, () => console.log('Database connected'))
 
-app.use('/api/uploads', uploadRouter);
+app.use('/api/upload', uploadRouter);
 app.use('/api/download', downloadRouter);
 app.use('/api/users', userRouter);
 app.use('/api/mints', mintRouter);

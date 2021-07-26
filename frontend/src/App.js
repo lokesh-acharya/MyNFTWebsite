@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 import { signout } from './actions/userActions';
@@ -19,6 +19,7 @@ import FileTwoScreen from './screens/FileTwoScreen';
 import FileThreeScreen from './screens/FileThreeScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import SupportScreen from './screens/SupportScreen';
+import NFTScreen from './screens/NFTScreen';
 import ChatBox from './components/ChatBox';
 
 function App() {  
@@ -84,91 +85,21 @@ function App() {
               </div>
             )}
           </div>
-        </header>
-        {/* <aside className={sidebarIsOpen ? 'open' : ''}>
-          <ul className="categories">
-            <li>
-              <strong>Categories</strong>
-              <button
-                onClick={() => setSidebarIsOpen(false)}
-                className="close-sidebar"
-                type="button"
-              >
-                <i className="fa fa-close"></i>
-              </button>
-            </li>
-            {loadingCategories ? (
-              <LoadingBox></LoadingBox>
-            ) : errorCategories ? (
-              <MessageBox variant="danger">{errorCategories}</MessageBox>
-            ) : (
-              categories.map((c) => (
-                <li key={c}>
-                  <Link
-                    to={`/search/category/${c}`}
-                    onClick={() => setSidebarIsOpen(false)}
-                  >
-                    {c}
-                  </Link>
-                </li>
-              ))
-            )}
-          </ul>
-        </aside> */}
-        <main>
-          {/* <Route path="/seller/:id" component={SellerScreen}></Route> */}
-          {/* <Route path="/cart/:id?" component={CartScreen}></Route> */}
-          {/* <Route path="/product/:id" component={ProductScreen} exact></Route> */}
-          {/* <Route
-            path="/product/:id/edit"
-            component={ProductEditScreen}
-            exact
-          ></Route> */}
+        </header>        
+        <main>          
           <Route path="/signin" component={SigninScreen}></Route>
           <Route path="/register" component={RegisterScreen}></Route>
-          {/* <Route path="/shipping" component={ShippingAddressScreen}></Route> */}
-          {/* <Route path="/payment" component={PaymentMethodScreen}></Route> */}
           <Route path="/mint/:id" component={MintScreen}></Route>
           <Route path="/minthistory" component={MintHistoryScreen}></Route>
           <Route path="/file1" component={FileOneScreen}></Route>
           <Route path="/file2" component={FileTwoScreen}></Route>
           <Route path="/file3" component={FileThreeScreen}></Route>
           <Route path="/placemint" component={PlaceMintScreen}></Route>
-          {/* <Route
-            path="/search/name/:name?"
-            component={SearchScreen}
-            exact
-          ></Route> */}
-          {/* <Route
-            path="/search/category/:category"
-            component={SearchScreen}
-            exact
-          ></Route> */}
-          {/* <Route
-            path="/search/category/:category/name/:name"
-            component={SearchScreen}
-            exact
-          ></Route>
-          <Route
-            path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/mint/:mint/pageNumber/:pageNumber"
-            component={SearchScreen}
-            exact
-          ></Route> */}
+          <Route path="/nft/:id" component={NFTScreen}></Route>
           <PrivateRoute
             path="/profile"
             component={ProfileScreen}
           ></PrivateRoute>
-          {/* <PrivateRoute path="/map" component={MapScreen}></PrivateRoute> */}
-          {/* <AdminRoute
-            path="/productlist"
-            component={ProductListScreen}
-            exact
-          ></AdminRoute> */}
-          {/* <AdminRoute
-            path="/productlist/pageNumber/:pageNumber"
-            component={ProductListScreen}
-            exact
-          ></AdminRoute> */}
           <AdminRoute
             path="/mintlist"
             component={MintListScreen}
@@ -179,22 +110,11 @@ function App() {
             path="/user/:id/edit"
             component={UserEditScreen}
           ></AdminRoute>
-
           <AdminRoute
             path="/dashboard"
             component={DashboardScreen}
           ></AdminRoute>
           <AdminRoute path="/support" component={SupportScreen}></AdminRoute>
-
-          {/* <SellerRoute
-            path="/productlist/seller"
-            component={ProductListScreen}
-          ></SellerRoute> */}
-          {/* <SellerRoute
-            path="/mintlist/seller"
-            component={MintListScreen}
-          ></SellerRoute> */}
-
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
         <footer className="row center">

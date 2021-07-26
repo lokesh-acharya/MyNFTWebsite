@@ -20,7 +20,9 @@ const mintSchema = new mongoose.Schema(
       file: { type: String, required: true }
     }, 
     isMinted: { type: Boolean},
-    mintedAt: { type: Date}
+    mintedAt: { type: Date},
+    assetURL: { type: String },
+    transaction: { type: mongoose.Schema.Types.Mixed }
   },
   {
     timestamps: true,

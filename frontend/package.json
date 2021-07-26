@@ -4,13 +4,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@alch/alchemy-web3": "^1.1.1",
+    "@aws-sdk/client-s3": "^3.23.0",
+    "@openzeppelin/contracts": "^3.1.0-solc-0.7",
     "@react-google-maps/api": "^2.2.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "aws-sdk": "^2.953.0",
     "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
     "filepond": "^4.28.2",
+    "form-data": "^2.3.3",
     "fs": "^0.0.1-security",
+    "ipfs-http-client": "^50.1.2",
     "js-cookie": "^2.2.1",
     "js-file-download": "^0.4.12",
     "react": "^17.0.2",
@@ -51,5 +58,29 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.0",
+    "@webpack-cli/generators": "^2.2.0",
+    "babel-loader": "^8.1.0",
+    "chai": "^4.2.0",
+    "ethereum-waffle": "^3.0.0",
+    "ethers": "^5.4.1",
+    "hardhat": "^2.5.0",
+    "html-webpack-plugin": "^4.5.0",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.1"
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "hardhat.config.js",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
