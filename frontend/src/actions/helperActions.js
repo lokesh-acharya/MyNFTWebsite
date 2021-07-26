@@ -17,7 +17,7 @@ export const viewFile = (fileName) => async (dispatch, getState) => {
     var userId = userInfo._id;
     Axios({
       method: 'get',
-      url: `http://localhost:5000/api/download/${userId}/${fileName}`,
+      url: `/api/download/${userId}/${fileName}`,
       responseType: 'blob',
       headers: {Authorization: `Bearer ${userInfo.token}`},
     })
@@ -49,7 +49,7 @@ export const getIPFS = (mintId) => async(dispatch, getState) => {
   } = getState();
   try {
     const { data } = await Axios.get(
-      `http://localhost:5000/api/mints/${mintId}/ipfs`,
+      `/api/mints/${mintId}/ipfs`,
       {},
       {
         headers: { Authorization: `Bearer ${userInfo.token}` },

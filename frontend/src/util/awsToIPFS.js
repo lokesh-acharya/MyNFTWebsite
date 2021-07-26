@@ -7,19 +7,19 @@ export const awsToIPFS = async(filename) => {
   const fs = require('fs');
   const FormData = require('form-data');
 
-  const s3AccessKeyId = 'AKIAXWHK6I3DFF2YJWU6';
-  const s3AccessSecret = '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';
-  const s3Region = 'ap-south-1';
-  const s3Bucket = 'mynftwebuploads';
-  const apiKey = 'ad6f958a2098f31d4b1e';
-  const apiSecret = '16237782d8507734b1703e1142b323f9a99caec0a7a7f9082e280476f68f0b0f';
+  // const s3AccessKeyId = 'AKIAXWHK6I3DFF2YJWU6';
+  // const s3AccessSecret = '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';
+  // const s3Region = 'ap-south-1';
+  // const s3Bucket = 'mynftwebuploads';
+  // const apiKey = 'ad6f958a2098f31d4b1e';
+  // const apiSecret = '16237782d8507734b1703e1142b323f9a99caec0a7a7f9082e280476f68f0b0f';
 
-  // const s3AccessKeyId = process.env.REACT_APP_ID;
-  // const s3AccessSecret = process.env.REACT_APP_SECRET;
-  // const s3Region = process.env.REACT_APP_REGION;
-  // const s3Bucket = process.env.REACT_APP_BUCKET_NAME;
-  // const apiKey = process.env.REACT_APP_PINATA_KEY;
-  // const apiSecret = process.env.REACT_APP_PINATA_SECRET;
+  const s3AccessKeyId = process.env.ID;
+  const s3AccessSecret = process.env.SECRET;
+  const s3Region = process.env.REGION;
+  const s3Bucket = process.env.BUCKET_NAME;
+  const apiKey = process.env.PINATA_KEY;
+  const apiSecret = process.env.PINATA_SECRET;
 
   var form = new FormData();
   const fileName = filename;
