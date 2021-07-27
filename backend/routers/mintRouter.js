@@ -188,38 +188,7 @@ mintRouter.get(
         },
       };
       await axios(params)
-        .then(function (resp) {
-          const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
-          const apiKey = process.env.PINATA_KEY;
-          const apiSecret = process.env.PINATA_SECRET;
-
-          let data1 = new FormData();
-          data1.append('file', fs.createReadStream(`${__dirname}/uploads` + fileName));
-          var config = {
-            method: 'post',
-            url: url,
-            data: data1,
-            headers: {
-              'pinata_api_key': apiKey,
-              'pinata_secret_api_key': apiSecret,
-              'Content-Type': `multipart/form-data; boundary= ${form._boundary}`,
-            },
-          };
-          await axios(config)
-            .then(function (response) {
-              res.send({
-                success: true,
-                result: response.data
-              })
-            })
-            .catch(function (error) {
-              // console.log(error)
-              res.status(500).send({
-                success: false,
-                message: error.message,
-              })
-            })
-        })
+        .then(function (response) {})
         .catch(function (error) {
           res.status(500).send({
             success: false,
@@ -241,7 +210,38 @@ mintRouter.get(
       //       filename: fileName
       //     });
       //   }
-      // });      
+      // });
+
+      const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
+      const apiKey = process.env.PINATA_KEY;
+      const apiSecret = process.env.PINATA_SECRET;
+
+      let data1 = new FormData();
+      data1.append('file', fs.createReadStream(`${__dirname}/uploads` + fileName));
+      var config = {
+        method: 'post',
+        url: url,
+        data: data1,
+        headers: {
+          'pinata_api_key': apiKey,
+          'pinata_secret_api_key': apiSecret,
+          'Content-Type': `multipart/form-data; boundary= ${form._boundary}`,
+        },
+      };
+      await axios(config)
+        .then(function (response) {
+          res.send({
+            success: true,
+            result: response.data
+          })
+        })
+        .catch(function (error) {
+          // console.log(error)
+          res.status(500).send({
+            success: false,
+            message: error.message,
+          })
+        })
       }
       else {
         res.status(404).send({ message: 'Mint Request Not Found' });
