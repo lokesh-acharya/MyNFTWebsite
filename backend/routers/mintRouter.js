@@ -179,26 +179,23 @@ mintRouter.get(
         filename: fileName //required or it fails
       });
 
-      // var params = {
-      //   method: 'post',
-      //   url: `http://localhost:${process.env.PORT}/api/upload/`,
-      //   data: form,
-      //   headers: {
-      //     'Content-Type': `multipart/form-data`,
-      //   },
-      // };
-      // var fileDownloaded = false;
-      // await axios(params)
-      //   .then(function (response) {
-      //     fileDownloaded = true;
-      //   })
-      //   .catch(function (error) {
-      //     res.status(500).send({
-      //       success: false,
-      //       message: error.message,
-      //     })
-      //   })
-      
+      var params = {
+        method: 'post',
+        url: `http://localhost:${process.env.PORT}/api/upload/`,
+        data: form,
+        headers: {
+          'Content-Type': `multipart/form-data`,
+        },
+      };
+      await axios(params)
+        .then(function (response) {})
+        .catch(function (error) {
+          res.status(500).send({
+            success: false,
+            message: error.message,
+          })
+        })
+
       // s3.getObject({
       //     Bucket: s3Bucket,
       //     Key: fileName
@@ -219,10 +216,12 @@ mintRouter.get(
       const apiKey = process.env.PINATA_KEY;
       const apiSecret = process.env.PINATA_SECRET;
 
+      let data1 = new FormData();
+      data1.append('file', fs.createReadStream(`${__dirname}/uploads` + fileName));
       var config = {
         method: 'post',
         url: url,
-        data: form,
+        data: data1,
         headers: {
           'pinata_api_key': apiKey,
           'pinata_secret_api_key': apiSecret,
