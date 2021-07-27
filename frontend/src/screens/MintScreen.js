@@ -31,8 +31,7 @@ export default function MintScreen(props) {
   } = mintMint1;
 
   const [walletAddress, setWallet] = useState("");
-  const [status, setStatus] = useState("");
-  const [txDetails, setTxDetails] = useState('');  
+  const [status, setStatus] = useState("");  
 
   useEffect(() => {
     async function fetchData() {
@@ -88,8 +87,8 @@ export default function MintScreen(props) {
   };
 
   const onMintPressed = async () => {
-    let ipfsResult = await getIPFS(userInfo, mint._id);
-    // let ipfsResult = await awsToIPFS(mint.file3.file);
+    // let ipfsResult = await getIPFS(userInfo, mint._id);
+    let ipfsResult = await awsToIPFS(mint.file3.file);
     console.log(ipfsResult);
     if(ipfsResult.success) {
       const name = mint.file3.name;
@@ -98,8 +97,7 @@ export default function MintScreen(props) {
       const mintResults = await mintNFT(assetUrl, name, description);
       if(mintResults.success) {
         setStatus(mintResults.status);
-        setTxDetails(mintResults.transaction);
-        dispatch(mintMint(mint._id, assetUrl, txDetails));
+        dispatch(mintMint(mint._id, assetUrl, mintResults.transaction));
         // window.location.reload();
       }
       else {

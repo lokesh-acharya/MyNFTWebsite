@@ -53,7 +53,7 @@ export const awsToIPFS = async(filename) => {
       });
     }
   });
-
+  
   // form.append('file', s3Stream, {
   //   filename: fileName //required or it fails
   // });
@@ -64,8 +64,8 @@ export const awsToIPFS = async(filename) => {
     'maxBodyLength': Infinity,
     headers: {
       'pinata_api_key': apiKey,
-      'pinata_secret_api_key': apiSecret,
-      ...form.getHeaders()
+      'pinata_secret_api_key': apiSecret,      
+      'Content-Type': `multipart/form-data; boundary= ${form._boundary}`,
     },
     data: form
   };
