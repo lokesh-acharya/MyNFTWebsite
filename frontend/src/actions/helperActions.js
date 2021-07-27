@@ -48,47 +48,50 @@ export const getIPFS = async(userInfo, mintId) => {
   // const {
   //   userSignin: { userInfo },
   // } = getState();
-  return Axios
-    .get(
-      `/api/mints/${mintId}/ipfs`, 
-      {},
-      {
-        headers: { Authorization: `Bearer ${userInfo.token}` 
-      },
-    })
-    .then(function (response) {
-      return {
-        success: true,
-        data: response.data.result        
-      };
-    })
-    .catch(function (error) {
-      // console.log(error);
-      const message =
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message;
-      return {
-        success: false,
-        data: message,
-      }
-    });
-  // try {
-  //   const { result } = await Axios.get(
-  //     `/api/mints/${mintId}/ipfs`,
+  // return (
+  //   await Axios
+  //   .get(
+  //     `/api/mints/${mintId}/ipfs`, 
   //     {},
   //     {
-  //       headers: { Authorization: `Bearer ${userInfo.token}` },
+  //       headers: { Authorization: `Bearer ${userInfo.token}` 
+  //     },
+  //   })
+  //   .then(function (response) {
+  //     return {
+  //       success: true,
+  //       data: response.data.result        
+  //     };
+  //   })
+  //   .catch(function (error) {
+  //     // console.log(error);
+  //     const message =
+  //       error.response && error.response.data.message
+  //         ? error.response.data.message
+  //         : error.message;
+  //     return {
+  //       success: false,
+  //       data: message,
   //     }
-  //   );
-  //   // dispatch({ type: IPFS_REQUEST_SUCCESS, payload: data });
-  //   return { success: true, data: result};
-  // } catch (error) {
-  //   const message =
-  //     error.response && error.response.data.message
-  //       ? error.response.data.message
-  //       : error.message;
-  //   // dispatch({ type: IPFS_REQUEST_FAIL, payload: message });
-  //   return { success: false, data: message };
-  // }
+  //   })
+  // )
+  
+  try {
+    const { data } = await Axios.get(
+      `/api/mints/${mintId}/ipfs`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      }
+    );
+    // dispatch({ type: IPFS_REQUEST_SUCCESS, payload: data });
+    return { success: true, data: data};
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    // dispatch({ type: IPFS_REQUEST_FAIL, payload: message });
+    return { success: false, data: message };
+  }
 };
