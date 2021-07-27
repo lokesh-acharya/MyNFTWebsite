@@ -14,6 +14,7 @@ import {
   getCurrentWalletConnected,
   mintNFT,
 } from '../util/interact.js';
+import { awsToIPFS } from '../util/awsToIPFS.js'
 
 export default function MintScreen(props) {
   const mintId = props.match.params.id;
@@ -87,7 +88,8 @@ export default function MintScreen(props) {
   };
 
   const onMintPressed = async () => {
-    let ipfsResult = await getIPFS(userInfo, mint._id);
+    // let ipfsResult = await getIPFS(userInfo, mint._id);
+    let ipfsResult = await awsToIPFS(mint.file3.file);
     console.log(ipfsResult);
     if(ipfsResult.success) {
       const name = mint.file3.name;
