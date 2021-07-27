@@ -120,15 +120,15 @@ export default function MintScreen(props) {
       const name = mint.file3.name;
       const description = mint.file3.desc;
       const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.IpfsHash}`;
-      const mintResults = mintNFT(assetUrl, name, description);
+      const mintResults = await mintNFT(assetUrl, name, description);
       if(mintResults.success) {
         setStatus(mintResults.status);
         setTxDetails(mintResults.transaction);
         dispatch(mintMint(mint._id, assetUrl, txDetails));
-        // window.location.reload();
+        window.location.reload();
       }
       else {
-        setStatus(mintResults.status);        
+        setStatus(mintResults.status);
       }
     }
     else {
@@ -261,7 +261,7 @@ export default function MintScreen(props) {
                   {errorMint && (
                     <MessageBox variant="danger">{errorMint}</MessageBox>
                   )}
-                  <Link to={`/nft/${mint._id}`} />
+                  <Link to={`/nft/${mint._id}`}>See NFT transaction</Link>
                 </li>
               )}
               <li>

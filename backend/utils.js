@@ -46,7 +46,7 @@ export const isAdmin = (req, res, next) => {
   }
 };
 
-export const awsToIPFS = (filename) => async() => {
+export const awsToIPFS = async(filename) => {
   var axios = require('axios');
   var FormData = require('form-data');
   var form = new FormData();

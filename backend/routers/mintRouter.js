@@ -132,7 +132,7 @@ mintRouter.get(
   expressAsyncHandler(async (req, res) => {
     const mint = await Mint.findById(req.params.id);
     if(mint) {
-      const { sucess, data } = awsToIPFS(mint.file3.file);
+      const { sucess, data } = await awsToIPFS(mint.file3.file);
       if(sucess) {
         res.send({ sucess: true, message: "aws to ipfs done!", result: data });
       } else {

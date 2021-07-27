@@ -100,9 +100,8 @@ export const mintNFT = async (url, name, description) => {
 
   //make metadata
   const metadata = {};
-  //const metadata = new Object();
   metadata.name = name;
-  metadata.image = url;
+  metadata.file = url;
   metadata.description = description;
 
   const pinataResponse = await pinJSONToIPFS(metadata);
