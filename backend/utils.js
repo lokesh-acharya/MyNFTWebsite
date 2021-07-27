@@ -47,38 +47,6 @@ export const isAdmin = (req, res, next) => {
 };
 
 export const awsToIPFS = async (filename) => {
-  var FormData = require('form-data');
-  var form = new FormData();
-  const AWS = require('aws-sdk');
-  const fileName = filename;
-
-  const Config = require('./config.js');
-  const s3AccessKeyId = Config.ID;
-  const s3AccessSecret = Config.SECRET;
-  const s3Region = Config.REGION;
-  const s3Bucket = Config.BUCKET_NAME;
-
-  const s3 = new AWS.S3({
-    credentials: {
-      accessKeyId: s3AccessKeyId,
-      secretAccessKey: s3AccessSecret,
-      region: s3Region
-    }
-  });
-
-  let s3Stream = s3.getObject({
-    Bucket: s3Bucket,
-    Key: fileName
-  }).createReadStream();
-
-  form.append('file', s3Stream, {
-    filename: fileName //required or it fails
-  });
-  
-  return form;
-}
-
-export const awsToIPFS1 = async (filename) => {
   var axios = require('axios');
   var FormData = require('form-data');
   var form = new FormData();
@@ -116,11 +84,11 @@ export const awsToIPFS1 = async (filename) => {
     method: 'post',
     url: url,
     data: form,
-    maxBodyLength: Infinity,
-    maxContentLength: Infinity,
+    maxBodyLength: 'Infinity',
+    maxContentLength: 'Infinity',
     headers: {
-      'pinata_api_key': apiKey,
-      'pinata_secret_api_key': apiSecret,
+      pinata_api_key: apiKey,
+      pinata_secret_api_key: apiSecret,
       ...form.getHeaders()
     },
   };
@@ -130,15 +98,47 @@ export const awsToIPFS1 = async (filename) => {
     .then(function (response) {
       return {
         success: true,
-        data: JSON.stringify(response.data)        
+        data: response.data   
       };
     })
     .catch(function (error) {
       console.log(error)
       return {
         success: false,
-        data: JSON.stringify(error.message)
+        data: error.message
       }
     })
   )
 }
+
+// export const awsToIPFS = async (filename) => {
+//   var FormData = require('form-data');
+//   var form = new FormData();
+//   const AWS = require('aws-sdk');
+//   const fileName = filename;
+
+//   const Config = require('./config.js');
+//   const s3AccessKeyId = Config.ID;
+//   const s3AccessSecret = Config.SECRET;
+//   const s3Region = Config.REGION;
+//   const s3Bucket = Config.BUCKET_NAME;
+
+//   const s3 = new AWS.S3({
+//     credentials: {
+//       accessKeyId: s3AccessKeyId,
+//       secretAccessKey: s3AccessSecret,
+//       region: s3Region
+//     }
+//   });
+
+//   let s3Stream = s3.getObject({
+//     Bucket: s3Bucket,
+//     Key: fileName
+//   }).createReadStream();
+
+//   form.append('file', s3Stream, {
+//     filename: fileName //required or it fails
+//   });
+  
+//   return form;
+// }

@@ -125,7 +125,7 @@ mintRouter.put(
 );
 
 mintRouter.get(
-  '/:id/ifps1',
+  '/:id/ifps',
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
@@ -133,12 +133,12 @@ mintRouter.get(
     if(mint) {
       const result = await awsToIPFS(mint.file3.file);
       if(result.sucess) {
-        // res.setHeader('Content-Type', 'application/json');
-        res.send(result.data);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(result.data));
       } 
       else {
         // res.setHeader('Content-Type', 'application/json');
-        res.status(500).send({ message: result.data });
+        res.status(500).send({ message: JSON.stringify(result.data) });
       }
     } else {
       res.status(404).send({ message: 'Mint Request Not Found' });
@@ -146,19 +146,19 @@ mintRouter.get(
   })
 );
 
-mintRouter.get(
-  '/:id/ifps',
-  isAuth,
-  isAdmin,
-  expressAsyncHandler(async (req, res) => {
-    const mint = await Mint.findById(req.params.id);
-    if(mint) {
-      const file = await awsToIPFS(mint.file3.file);
-      res.send(file);
-    } else {
-      res.status(404).send({ message: 'Mint Request Not Found' });
-    }
-  })
-);
+// mintRouter.get(
+//   '/:id/ifps',
+//   isAuth,
+//   isAdmin,
+//   expressAsyncHandler(async (req, res) => {
+//     const mint = await Mint.findById(req.params.id);
+//     if(mint) {
+//       const file = await awsToIPFS(mint.file3.file);
+//       res.send(file);
+//     } else {
+//       res.status(404).send({ message: 'Mint Request Not Found' });
+//     }
+//   })
+// );
 
-export default mintRouter;
+// export default mintRouter;
