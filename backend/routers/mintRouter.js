@@ -227,7 +227,7 @@ mintRouter.get(
           'pinata_secret_api_key': apiSecret,
           'Content-Type': `multipart/form-data; boundary= ${form._boundary}`,
         },
-      };
+      };      
       await axios(config)
         .then(function (response) {
           res.send({
@@ -242,10 +242,10 @@ mintRouter.get(
             message: error.message,
           })
         })
-      }
-      else {
-        res.status(404).send({ message: 'Mint Request Not Found' });
-      }
+    }
+    else {
+      res.status(404).send({ message: 'Mint Request Not Found' });
+    }
   })
 );
 
