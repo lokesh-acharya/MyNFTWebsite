@@ -184,7 +184,7 @@ mintRouter.get(
         url: `http://localhost:${process.env.PORT}/api/upload/`,
         data: form,
         headers: {
-          'Content-Type': `multipart/form-data`,
+          ...form.getHeaders()
         },
       };
       await axios(params)
@@ -217,17 +217,17 @@ mintRouter.get(
       const apiSecret = process.env.PINATA_SECRET;
 
       let data1 = new FormData();
-      data1.append('file', fs.createReadStream(`${__dirname}/uploads` + fileName));
+      data1.append('file', fs.createReadStream(`${__dirname}/uploads/` + fileName));
       var config = {
         method: 'post',
-        url: url,
-        data: data1,
+        url: url,        
         headers: {
           'pinata_api_key': apiKey,
           'pinata_secret_api_key': apiSecret,
-          'Content-Type': `multipart/form-data; boundary= ${form._boundary}`,
+          ...data1.getHeaders()
         },
-      };      
+        data: data1
+      };
       await axios(config)
         .then(function (response) {
           res.send({

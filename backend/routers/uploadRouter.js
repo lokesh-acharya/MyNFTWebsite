@@ -48,11 +48,11 @@ uploadRouter.post('/:userId/:random', isAuth, Upload().single('file'), (req, res
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    const dir = `uploads/`;
-    if(!fs.existsSync(dir)){
-      fs.mkdirSync(dir);
-    }
-    cb(null, dir);
+    // const dir = '/uploads';
+    // if(!fs.existsSync(dir)){
+    //   fs.mkdirSync(dir);
+    // }
+    cb(null, `${__dirname}/uploads`);
   },
   filename(req, file, cb) {
     cb(null, file.originalname);
