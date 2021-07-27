@@ -84,11 +84,10 @@ export const awsToIPFS = async (filename) => {
     method: 'post',
     url: url,
     data: form,
-    maxBodyLength: 'Infinity',
-    maxContentLength: 'Infinity',
+    'maxBodyLength': Infinity,
     headers: {
-      pinata_api_key: apiKey,
-      pinata_secret_api_key: apiSecret,
+      'pinata_api_key': apiKey,
+      'pinata_secret_api_key': apiSecret,
       ...form.getHeaders()
     },
   };

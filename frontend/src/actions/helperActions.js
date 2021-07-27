@@ -49,10 +49,10 @@ export const getIPFS = async(userInfo, mintId) => {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     })
     .then((res) => {
-      return { success: true, data: res.data};
+      return { success: true, data: res.data };
     })
     .catch((error) => {
-      return { success: false, data: error.message};
+      return { success: false, data: error.message };
     })
   } catch (error) {
     const message =
