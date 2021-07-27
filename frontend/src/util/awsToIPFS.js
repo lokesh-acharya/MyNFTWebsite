@@ -1,10 +1,10 @@
 import FormData, {getHeaders} from 'form-data';
 require('dotenv').config();
 
-export const awsToIPFS = async(filename) => {
+export const awsToIPFS = async (filename) => {
   const aws = require('aws-sdk');
   const axios = require('axios');
-  //const FormData = require('form-data');
+  const FormData = require('form-data');
 
   const s3AccessKeyId = process.env.REACT_APP_ID;
   const s3AccessSecret = process.env.REACT_APP_SECRET;
@@ -13,7 +13,7 @@ export const awsToIPFS = async(filename) => {
   const apiKey = process.env.REACT_APP_PINATA_KEY;
   const apiSecret = process.env.REACT_APP_PINATA_SECRET;
 
-  var form = new window.FormData();
+  var form = new FormData();
   const fileName = filename;
   const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
 
