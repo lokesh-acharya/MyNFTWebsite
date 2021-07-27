@@ -1,7 +1,7 @@
 import multer from 'multer';
 import express from 'express';
 import path from 'path';
-// import fs from 'fs';
+import fs from 'fs';
 import { isAuth } from '../utils.js';
 import dotenv from 'dotenv';
 
@@ -44,6 +44,23 @@ function Upload() {
 
 uploadRouter.post('/:userId/:random', isAuth, Upload().single('file'), (req, res) => {
   res.send(`/${req.file.filename}`);
+});
+
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    const dir = `uploads/`;
+    if(!fs.existsSync(dir)){
+      fs.mkdirSync(dir);
+    }
+    cb(null, dir);
+  },
+  filename(req, file, cb) {
+    cb(null, file.originalname);
+  },
+});  
+const upload = multer({ storage }).single('file');
+uploadRouter.post('/', upload, (req, res) => {
+  res.send('file uploaded');
 });
 
 export default uploadRouter;

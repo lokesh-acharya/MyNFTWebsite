@@ -179,6 +179,26 @@ mintRouter.get(
         filename: fileName //required or it fails
       });
 
+      // var params = {
+      //   method: 'post',
+      //   url: `http://localhost:${process.env.PORT}/api/upload/`,
+      //   data: form,
+      //   headers: {
+      //     'Content-Type': `multipart/form-data`,
+      //   },
+      // };
+      // var fileDownloaded = false;
+      // await axios(params)
+      //   .then(function (response) {
+      //     fileDownloaded = true;
+      //   })
+      //   .catch(function (error) {
+      //     res.status(500).send({
+      //       success: false,
+      //       message: error.message,
+      //     })
+      //   })
+      
       // s3.getObject({
       //     Bucket: s3Bucket,
       //     Key: fileName
@@ -209,7 +229,7 @@ mintRouter.get(
           'Content-Type': `multipart/form-data; boundary= ${form._boundary}`,
         },
       };
-      await axios.post(config)
+      await axios(config)
         .then(function (response) {
           res.send({
             success: true,
