@@ -14,7 +14,7 @@ import {
   getCurrentWalletConnected,
   mintNFT,
 } from '../util/interact.js';
-import { awsToIPFS } from '../util/awsToIPFS';
+// import { awsToIPFS } from '../util/awsToIPFS';
 
 export default function MintScreen(props) {
   const mintId = props.match.params.id;
@@ -22,14 +22,6 @@ export default function MintScreen(props) {
   const { mint, loading, error } = mintDetails;
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
-  
-  // const ipfsDetails = useSelector((state) => state.ipfs);
-  // const { 
-  //   sucess: ipfsSuccess,
-  //   loading: ipfsLoading,
-  //   error: ipfsError,
-  //   result: ipfsResult 
-  // } = ipfsDetails;
 
   const mintMint1 = useSelector((state) => state.mintMint1);
   const {
@@ -125,7 +117,7 @@ export default function MintScreen(props) {
         setStatus(mintResults.status);
         setTxDetails(mintResults.transaction);
         dispatch(mintMint(mint._id, assetUrl, txDetails));
-        window.location.reload();
+        // window.location.reload();
       }
       else {
         setStatus(mintResults.status);
