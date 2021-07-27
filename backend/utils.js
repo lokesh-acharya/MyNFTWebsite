@@ -95,18 +95,18 @@ export const awsToIPFS = async(filename) => {
     },    
   };
 
-  await axios(config)
+  return await axios(config)
     .then(function (response) {
       return {
         success: true,
-        data: response.data        
+        data: JSON.stringify(response.data)        
       };
     })
     .catch(function (error) {
       console.log(error)
       return {
         success: false,
-        data: error.message
+        data: JSON.stringify(error.message)
       }
     });
 }
