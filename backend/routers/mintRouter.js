@@ -170,13 +170,29 @@ mintRouter.get(
           region: s3Region
         }
       });
-      let s3Stream = s3.getObject({
-        Bucket: s3Bucket,
-        Key: fileName
-      }).createReadStream();
+      // let s3Stream = s3.getObject({
+      //   Bucket: s3Bucket,
+      //   Key: fileName
+      // }).createReadStream();
 
-      form.append('file', s3Stream, {
-        filename: fileName //required or it fails
+      // form.append('file', s3Stream, {
+      //   filename: fileName //required or it fails
+      // });
+
+      s3.getObject({
+          Bucket: s3Bucket,
+          Key: fileName
+        }, (err, data) => {
+        if (err) {
+          res.status(500).send(err);
+        } else {
+          let csvBlob = new Blob([data.Body.toString()], {
+            type: 'text/csv;charset=utf-8;',
+          });
+          form.append('file', csvBlob, {
+            filename: fileName
+          });
+        }
       });
 
       const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
