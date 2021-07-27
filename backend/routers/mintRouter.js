@@ -125,7 +125,7 @@ mintRouter.put(
 );
 
 mintRouter.get(
-  '/:id/ifps',
+  '/:id/ifps1',
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
@@ -143,6 +143,74 @@ mintRouter.get(
     } else {
       res.status(404).send({ message: 'Mint Request Not Found' });
     }
+  })
+);
+
+mintRouter.get(
+  '/:id/ifps',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const mint = await Mint.findById(req.params.id);
+    if(mint) {
+      var axios = require('axios');
+      var FormData = require('form-data');
+      var form = new FormData();
+      const AWS = require('aws-sdk');
+      const fileName = mint.file3.file;
+
+      const s3AccessKeyId = process.env.ID;
+      const s3AccessSecret = process.env.SECRET;
+      const s3Region = process.env.REGION;
+      const s3Bucket = process.env.BUCKET_NAME;          
+      const s3 = new AWS.S3({
+        credentials: {
+          accessKeyId: s3AccessKeyId,
+          secretAccessKey: s3AccessSecret,
+          region: s3Region
+        }
+      });
+      let s3Stream = s3.getObject({
+        Bucket: s3Bucket,
+        Key: fileName
+      }).createReadStream();
+
+      form.append('file', s3Stream, {
+        filename: fileName //required or it fails
+      });
+
+      const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
+      const apiKey = process.env.PINATA_KEY;
+      const apiSecret = process.env.PINATA_SECRET;
+
+      var config = {
+        method: 'post',
+        url: url,
+        data: form,
+        headers: {
+          pinata_api_key: apiKey,
+          pinata_secret_api_key: apiSecret,
+          ...form.getHeaders()
+        },
+      };
+      await axios.post(config)
+        .then(function (response) {
+          res.send({
+            success: true,
+            result: response.data
+          })
+        })
+        .catch(function (error) {
+          // console.log(error)
+          res.status(500).send({
+            success: false,
+            message: error.message,
+          })
+        })
+      }
+      else {
+        res.status(404).send({ message: 'Mint Request Not Found' });
+      }
   })
 );
 

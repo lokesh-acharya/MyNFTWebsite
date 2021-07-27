@@ -42,17 +42,16 @@ export const viewFile = (fileName) => async (dispatch, getState) => {
 //export const getIPFS = async(mintId, getState) => {
 export const getIPFS = async(userInfo, mintId) => {
   try {
-    await Axios({
+    const { data } = await Axios({
       method: 'get',
       url: `/api/mints/${mintId}/ipfs`,
-      headers: { Authorization: `Bearer ${userInfo.token}` },
+      headers: { 
+        Authorization: `Bearer ${userInfo.token}`,
+        // Accept:  'application/json',
+        // 'Content-Type': 'application/json'
+      },
     })
-    .then((res) => {
-      return { success: true, data: res.data };
-    })
-    .catch((error) => {
-      return { success: false, data: error.message };
-    })
+    return { success: true, data: data };    
   } catch (error) {
     const message =
       error.response && error.response.data.message
