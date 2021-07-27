@@ -49,7 +49,7 @@ export const getIPFS = async(userInfo, mintId) => {
   //   userSignin: { userInfo },
   // } = getState();
   try {
-    const { data } = await Axios.get(
+    const { result } = await Axios.get(
       `/api/mints/${mintId}/ipfs`,
       {},
       {
@@ -57,13 +57,13 @@ export const getIPFS = async(userInfo, mintId) => {
       }
     );
     // dispatch({ type: IPFS_REQUEST_SUCCESS, payload: data });
-    return { success: true, result: data};
+    return { success: true, data: result};
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
     // dispatch({ type: IPFS_REQUEST_FAIL, payload: message });
-    return { success: false, result: message };
+    return { success: false, data: message };
   }
 };

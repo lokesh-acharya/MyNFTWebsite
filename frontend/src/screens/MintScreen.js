@@ -107,11 +107,12 @@ export default function MintScreen(props) {
   // };
 
   const onMintPressed = async () => {
-    let ipfsResult = await getIPFS(userInfo, mint.file3.file);   
+    let ipfsResult = await getIPFS(userInfo, mint.file3.file);
+    console.log(ipfsResult);   
     if(ipfsResult.success) {
       const name = mint.file3.name;
       const description = mint.file3.desc;
-      const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.IpfsHash}`;
+      const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
       const mintResults = await mintNFT(assetUrl, name, description);
       if(mintResults.success) {
         setStatus(mintResults.status);
