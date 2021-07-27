@@ -1,4 +1,3 @@
-import FormData, {getHeaders} from 'form-data';
 require('dotenv').config();
 
 export const awsToIPFS = async (filename) => {
@@ -45,7 +44,7 @@ export const awsToIPFS = async (filename) => {
     if (err) {
       console.log(err, err.stack);
     } else {
-      let csvBlob = new Blob([data.Body.toString()], {
+      let csvBlob = new Blob([data.Body.toString('utf-8')], {
         type: 'text/csv;charset=utf-8;',
       });
       form.append('file', csvBlob, {
@@ -78,7 +77,7 @@ export const awsToIPFS = async (filename) => {
   //   });
 
   return axios
-    .post(url, form, {
+    .post(url, form.file, {
       headers: {
         pinata_api_key: apiKey,
         pinata_secret_api_key: apiSecret,
