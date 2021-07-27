@@ -97,7 +97,7 @@ export const awsToIPFS = async (filename) => {
     .then(function (response) {
       return {
         success: true,
-        data: response.data   
+        data: response.data
       };
     })
     .catch(function (error) {
