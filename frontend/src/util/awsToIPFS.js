@@ -53,28 +53,48 @@ export const awsToIPFS = async(filename) => {
       });
     }
   });
-  
+
   // form.append('file', s3Stream, {
   //   filename: fileName //required or it fails
   // });
 
-  var config = {
-    method: 'post',
-    url: url,
-    'maxBodyLength': Infinity,
-    headers: {
-      'pinata_api_key': apiKey,
-      'pinata_secret_api_key': apiSecret,      
-      'Content-Type': `multipart/form-data; boundary= ${form._boundary}`,
-    },
-    data: form
-  };
+  // var config = {
+  //   method: 'post',
+  //   url: url,
+  //   headers: {
+  //     'pinata_api_key': apiKey,
+  //     'pinata_secret_api_key': apiSecret,      
+  //     'Content-Type': `multipart/form-data; boundary= ${form._boundary}`,
+  //   },
+  //   data: form
+  // };
 
-  await axios(config)
+  // await axios(config)
+  //   .then(function (response) {
+  //     return { sucess: true, data: JSON.stringify(response.data) };
+  //   })
+  //   .catch(function (error) {
+  //     return { sucess: false, data: JSON.stringify(error) };
+  //   });
+
+  return axios
+    .post(url, form, {
+      headers: {
+        pinata_api_key: apiKey,
+        pinata_secret_api_key: apiSecret,
+      }
+    })
     .then(function (response) {
-      return { sucess: true, data: JSON.stringify(response.data) };
+      return {
+        success: true,
+        data: response.data        
+      };
     })
     .catch(function (error) {
-      return { sucess: false, data: JSON.stringify(error) };
+      console.log(error)
+      return {
+        success: false,
+        message: error.message,
+      }
     });
 };
