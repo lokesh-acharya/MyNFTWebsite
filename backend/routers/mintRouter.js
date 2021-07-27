@@ -170,30 +170,30 @@ mintRouter.get(
           region: s3Region
         }
       });
-      // let s3Stream = s3.getObject({
-      //   Bucket: s3Bucket,
-      //   Key: fileName
-      // }).createReadStream();
+      let s3Stream = s3.getObject({
+        Bucket: s3Bucket,
+        Key: fileName
+      }).createReadStream();
 
-      // form.append('file', s3Stream, {
-      //   filename: fileName //required or it fails
-      // });
-
-      s3.getObject({
-          Bucket: s3Bucket,
-          Key: fileName
-        }, (err, data) => {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          let csvBlob = new Blob([data.Body.toString()], {
-            type: 'text/csv;charset=utf-8;',
-          });
-          form.append('file', csvBlob, {
-            filename: fileName
-          });
-        }
+      form.append('file', s3Stream, {
+        filename: fileName //required or it fails
       });
+
+      // s3.getObject({
+      //     Bucket: s3Bucket,
+      //     Key: fileName
+      //   }, (err, data) => {
+      //   if (err) {
+      //     res.status(500).send(err);
+      //   } else {
+      //     let csvBlob = new Blob([data.Body.toString()], {
+      //       type: 'text/csv;charset=utf-8;',
+      //     });
+      //     form.append('file', csvBlob, {
+      //       filename: fileName
+      //     });
+      //   }
+      // });
 
       const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
       const apiKey = process.env.PINATA_KEY;
@@ -204,9 +204,9 @@ mintRouter.get(
         url: url,
         data: form,
         headers: {
-          pinata_api_key: apiKey,
-          pinata_secret_api_key: apiSecret,
-          ...form.getHeaders()
+          'pinata_api_key': apiKey,
+          'pinata_secret_api_key': apiSecret,
+          'Content-Type': `multipart/form-data; boundary= ${form._boundary}`,
         },
       };
       await axios.post(config)

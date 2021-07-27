@@ -47,8 +47,6 @@ export const getIPFS = async(userInfo, mintId) => {
       url: `/api/mints/${mintId}/ipfs`,
       headers: { 
         Authorization: `Bearer ${userInfo.token}`,
-        // Accept:  'application/json',
-        // 'Content-Type': 'application/json'
       },
     })
     return { success: true, data: data };    
