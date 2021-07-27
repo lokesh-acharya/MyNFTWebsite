@@ -64,7 +64,8 @@ export const awsToIPFS = async(filename) => {
     headers: {
       pinata_api_key: apiKey,
       pinata_secret_api_key: apiSecret,
-      ...form.getHeaders()
+      'Content-Type': 'multipart/form-data'
+      // ...form.headers
     },
     data: form
   };
