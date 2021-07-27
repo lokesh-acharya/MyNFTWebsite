@@ -43,7 +43,7 @@ export const viewFile = (fileName) => async (dispatch, getState) => {
 };
 
 //export const getIPFS = async(mintId, getState) => {
-export const getIPFS = async(userInfo, mintId) => {
+export const getIPFS1 = async(userInfo, mintId) => {
   // dispatch({ type: IPFS_REQUEST, payload: mintId });
   // const {
   //   userSignin: { userInfo },
@@ -75,7 +75,28 @@ export const getIPFS = async(userInfo, mintId) => {
   //     }
   //   })
   // )
-  
+
+  try {
+    const { data } = await Axios.get(
+      `/api/mints/${mintId}/ipfs`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      }
+    );
+    // dispatch({ type: IPFS_REQUEST_SUCCESS, payload: data });
+    return { success: true, data: data};
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    // dispatch({ type: IPFS_REQUEST_FAIL, payload: message });
+    return { success: false, data: message };
+  }
+};
+
+export const getIPFS = async(userInfo, mintId) => {
   try {
     const { data } = await Axios.get(
       `/api/mints/${mintId}/ipfs`,
