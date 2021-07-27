@@ -134,10 +134,8 @@ mintRouter.get(
     if(mint) {
       const { sucess, data } = await awsToIPFS(mint.file3.file);
       if(sucess) {
-        res.setHeader('Content-Type', 'application/json');
         res.send(data);
       } else {
-        res.setHeader('Content-Type', 'application/json');
         res.status(500).send(data);
       }
     } else {

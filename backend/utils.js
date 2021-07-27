@@ -85,20 +85,28 @@ export const awsToIPFS = async(filename) => {
   var config = {
     method: 'post',
     url: url,
-    'maxBodyLength': Infinity,
+    data: form,
+    maxBodyLength: Infinity,
+    maxContentLength: Infinity,
     headers: {
       'pinata_api_key': apiKey,
       'pinata_secret_api_key': apiSecret,
       ...form.getHeaders()
-    },
-    data: form
+    },    
   };
 
-  axios(config)
+  await axios(config)
     .then(function (response) {
-      return { sucess: true, data: JSON.stringify(response.data) };
+      return {
+        success: true,
+        data: response.data        
+      };
     })
     .catch(function (error) {
-      return { sucess: false, data: JSON.stringify(error) };
+      console.log(error)
+      return {
+        success: false,
+        data: error.message
+      }
     });
 }
