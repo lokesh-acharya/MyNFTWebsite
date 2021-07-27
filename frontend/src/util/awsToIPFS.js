@@ -32,7 +32,6 @@ export const awsToIPFS = async(filename) => {
   // console.log(fileName);
   // console.log(s3);
 
-  const s3Stream = s3.getObject(params).createReadStream();
   // const s3Stream = s3.getObject({ 
   //   Bucket: s3Bucket,
   //   Key: fileName
@@ -41,9 +40,22 @@ export const awsToIPFS = async(filename) => {
   //   else     console.log(data);           // successful response
   // }).createReadStream();
 
-  form.append('file', s3Stream, {
-    filename: fileName //required or it fails
+  s3.getObject(params, (err, data) => {
+    if (err) {
+      console.log(err, err.stack);
+    } else {
+      let csvBlob = new Blob([data.Body.toString()], {
+        type: 'text/csv;charset=utf-8;',
+      });
+      form.append('file', csvBlob, {
+        filename: fileName //required or it fails
+      });
+    }
   });
+
+  // form.append('file', s3Stream, {
+  //   filename: fileName //required or it fails
+  // });
 
   var config = {
     method: 'post',
