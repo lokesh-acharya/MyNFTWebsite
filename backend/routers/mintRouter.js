@@ -146,19 +146,4 @@ mintRouter.get(
   })
 );
 
-// mintRouter.get(
-//   '/:id/ifps',
-//   isAuth,
-//   isAdmin,
-//   expressAsyncHandler(async (req, res) => {
-//     const mint = await Mint.findById(req.params.id);
-//     if(mint) {
-//       const file = await awsToIPFS(mint.file3.file);
-//       res.send(file);
-//     } else {
-//       res.status(404).send({ message: 'Mint Request Not Found' });
-//     }
-//   })
-// );
-
-// export default mintRouter;
+export default mintRouter;

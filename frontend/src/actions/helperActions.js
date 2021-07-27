@@ -1,12 +1,8 @@
 import Axios from 'axios';
-import { application } from 'express';
 import {
     VIEW_FILE_FAIL,
     VIEW_FILE_REQUEST,
     VIEW_FILE_SUCCESS,
-    IPFS_REQUEST,
-    IPFS_REQUEST_SUCCESS,
-    IPFS_REQUEST_FAIL
 } from '../constants/helperConstants';
 
 export const viewFile = (fileName) => async (dispatch, getState) => {
@@ -66,24 +62,3 @@ export const getIPFS = async(userInfo, mintId) => {
     return { success: false, data: message };
   }
 };
-
-// export const getIPFS1 = async(userInfo, mintId) => {
-//   try {
-//     const { data } = await Axios.get(
-//       `/api/mints/${mintId}/ipfs`,
-//       {},
-//       {
-//         headers: { Authorization: `Bearer ${userInfo.token}` },
-//       }
-//     );
-//     // dispatch({ type: IPFS_REQUEST_SUCCESS, payload: data });
-//     return { success: true, data: data};
-//   } catch (error) {
-//     const message =
-//       error.response && error.response.data.message
-//         ? error.response.data.message
-//         : error.message;
-//     // dispatch({ type: IPFS_REQUEST_FAIL, payload: message });
-//     return { success: false, data: message };
-//   }
-// };

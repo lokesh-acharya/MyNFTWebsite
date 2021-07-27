@@ -14,7 +14,6 @@ import {
   getCurrentWalletConnected,
   mintNFT,
 } from '../util/interact.js';
-// import { awsToIPFS } from '../util/awsToIPFS';
 
 export default function MintScreen(props) {
   const mintId = props.match.params.id;
@@ -87,25 +86,6 @@ export default function MintScreen(props) {
     setWallet(walletResponse.address);
   };
 
-  // const onMintPressed = async () => {    
-  //   const { success, result } = await awsToIPFS(mint.file3.file);    
-  //   if(success) {
-  //     const name = mint.file3.name;
-  //     const description = mint.file3.desc;
-  //     const assetUrl = `https://gateway.pinata.cloud/ipfs/${result.IpfsHash}`;
-  //     const mintResults = mintNFT(assetUrl, name, description);
-  //     if(mintResults.success) {
-  //       setStatus(mintResults.status);
-  //       setTxDetails(mintResults.transaction);
-  //       dispatch(mintMint(mint._id, assetUrl, txDetails));
-  //       // window.location.reload();
-  //     }
-  //     else {
-  //       setStatus(mintResults.status);
-  //     }
-  //   }
-  // };
-
   const onMintPressed = async () => {
     let ipfsResult = await getIPFS(userInfo, mint._id);
     console.log(ipfsResult);
@@ -128,30 +108,6 @@ export default function MintScreen(props) {
       console.log(ipfsResult.data);
     }
   };
-
-  // const ipfs = useSelector((state) => state.ipfs);
-  // const { ipfsResult, ipfsLoading, ipfsError } = ipfs;
-
-  // const onMintPressed = (e) => {
-  //   e.preventDefault();
-  //   dispatch(getIPFS(mint._id));
-  // };
-
-  // useEffect( () => {
-  //   if (ipfsResult && ipfsResult.success) {
-  //     const name = mint.file3.name;
-  //     const description = mint.file3.desc;
-  //     const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.IpfsHash}`;
-      
-  //     const mintResults = mintNFT(assetUrl, name, description);
-  //     if(mintResults.success) {
-  //       setStatus(mintResults.status);
-  //       setTxDetails(mintResults.transaction);        
-  //       dispatch(mintMint(mint._id, assetUrl, txDetails));
-  //       // window.location.reload();
-  //     }
-  //   }
-  // }, [dispatch, ipfsResult, mint, txDetails]);
 
   return loading ?
   (
