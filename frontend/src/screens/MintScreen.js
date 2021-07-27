@@ -125,7 +125,7 @@ export default function MintScreen(props) {
       }
     }
     else {
-      console.log(ipfsResult.result);
+      console.log(ipfsResult.data);
     }
   };
 

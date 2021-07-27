@@ -134,12 +134,14 @@ mintRouter.get(
     if(mint) {
       const { sucess, data } = await awsToIPFS(mint.file3.file);
       if(sucess) {
-        res.send({ result: data });
+        res.setHeader('Content-Type', 'application/json');
+        res.send(data);
       } else {
-        res.status(500).send({ result: data});
+        res.setHeader('Content-Type', 'application/json');
+        res.status(500).send(data);
       }
     } else {
-      res.status(404).send({ result: 'Mint Request Not Found' });
+      res.status(404).end();
     }
   })
 );
