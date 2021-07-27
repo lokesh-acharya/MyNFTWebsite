@@ -59,14 +59,18 @@ export const getIPFS = async(userInfo, mintId) => {
     .then(function (response) {
       return {
         success: true,
-        data: response.data        
+        data: response.data.result        
       };
     })
     .catch(function (error) {
-      console.log(error)
+      // console.log(error);
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
       return {
         success: false,
-        data: error.message,
+        data: message,
       }
     });
   // try {

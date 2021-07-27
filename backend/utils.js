@@ -92,7 +92,7 @@ export const awsToIPFS = async(filename) => {
       'pinata_api_key': apiKey,
       'pinata_secret_api_key': apiSecret,
       ...form.getHeaders()
-    },    
+    },
   };
 
   return await axios(config)
