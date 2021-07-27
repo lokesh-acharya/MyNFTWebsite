@@ -13,7 +13,7 @@ export const awsToIPFS = async(filename) => {
   const apiKey = process.env.REACT_APP_PINATA_KEY;
   const apiSecret = process.env.REACT_APP_PINATA_SECRET;
 
-  var form = new FormData();
+  var form = new window.FormData();
   const fileName = filename;
   const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
 
