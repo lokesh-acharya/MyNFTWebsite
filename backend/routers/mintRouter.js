@@ -153,12 +153,12 @@ mintRouter.get(
   expressAsyncHandler(async (req, res) => {
     const mint = await Mint.findById(req.params.id);
     if(mint) {
-      var axios = require('axios');
-      var FormData = require('form-data');
-      var form = new FormData();
+      const axios = require('axios');
+      // const FormData = require('form-data');
       const AWS = require('aws-sdk');
+      const pinataSDK = require('@pinata/sdk');
+      
       const fileName = mint.file3.file;
-
       const s3AccessKeyId = process.env.ID;
       const s3AccessSecret = process.env.SECRET;
       const s3Region = process.env.REGION;
@@ -175,8 +175,20 @@ mintRouter.get(
         Key: fileName
       }).createReadStream();
 
-      form.append('file', s3Stream, {
-        filename: fileName //required or it fails
+      // var form = new FormData();
+      // form.append('file', s3Stream, {
+      //   filename: fileName //required or it fails
+      // });
+
+      const pinata = pinataSDK(apiKey, apiSecret);
+      pinata.testAuthentication().then((result) => {}).catch((err) => {
+        res.status(500).send(err);
+      });
+    
+      pinata.pinFileToIPFS(s3Stream).then((result) => {
+        res.send(result);
+      }).catch((err) => {
+        res.status(500).send(err);
       });
 
       // var params = {
@@ -195,7 +207,6 @@ mintRouter.get(
       //       message: error.message,
       //     })
       //   })
-
       // s3.getObject({
       //     Bucket: s3Bucket,
       //     Key: fileName
@@ -211,62 +222,36 @@ mintRouter.get(
       //     });
       //   }
       // });
-
-      const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
-      const apiKey = process.env.PINATA_KEY;
-      const apiSecret = process.env.PINATA_SECRET;
-
       // let data1 = new FormData();
       // data1.append('file', fs.createReadStream(`${__dirname}/uploads/` + fileName));
       
-      axios.post(
-        url,
-        form,
-        {
-          maxContentLength: 'Infinity',
-          headers: {
-            'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
-            'pinata_api_key': apiKey,
-            'pinata_secret_api_key': apiSecret
-          }
-        }
-      ).then(function (response) {
-        res.send({
-          success: true,
-          result: response.data
-        })
-      }).catch(function (error) {
-        res.status(500).send({
-          success: false,
-          message: error.message,
-        })
-      });
 
-      // var config = {
-      //   method: 'post',
-      //   url: url,
-      //   headers: {
-      //     'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
-      //     'pinata_api_key': apiKey,
-      //     'pinata_secret_api_key': apiSecret,
-      //     // ...data1.getHeaders()
-      //   },
-      //   data: form
-      // };
-      // axios(config)
-      //   .then(function (response) {
-      //     res.send({
-      //       success: true,
-      //       result: response.data
-      //     })
+      // const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
+      // const apiKey = process.env.PINATA_KEY;
+      // const apiSecret = process.env.PINATA_SECRET;
+
+      // axios.post(
+      //   url,
+      //   form,
+      //   {
+      //     maxContentLength: 'Infinity',
+      //     headers: {
+      //       'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
+      //       'pinata_api_key': apiKey,
+      //       'pinata_secret_api_key': apiSecret
+      //     }
+      //   }
+      // ).then(function (response) {
+      //   res.send({
+      //     success: true,
+      //     result: response.data
       //   })
-      //   .catch(function (error) {
-      //     // console.log(error)
-      //     res.status(500).send({
-      //       success: false,
-      //       message: error.message,
-      //     })
+      // }).catch(function (error) {
+      //   res.status(500).send({
+      //     success: false,
+      //     message: error.message,
       //   })
+      // });
     }
     else {
       res.status(404).send({ message: 'Mint Request Not Found' });
