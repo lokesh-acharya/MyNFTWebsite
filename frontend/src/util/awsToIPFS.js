@@ -31,9 +31,10 @@ export const awsToIPFS = async (filename) => {
   s3.getObject(params, (err, data) => {
     if (err) {
       console.log(err, err.stack);
+      return { success: false, message: err }
     } 
     else {
-      let csvBlob = new Blob([data.Body.toString('utf-8')], {
+      let csvBlob = new Blob([data.Body.toString()], {
         type: 'text/csv;charset=utf-8;',
       });
       var stream = csvBlob.stream();
@@ -43,12 +44,12 @@ export const awsToIPFS = async (filename) => {
       .then((result) => {
         console.log(result)
       }).catch((err) => {
-        return { success: false, message: err.message }
+        return { success: false, message: err }
       });    
       pinata.pinFileToIPFS(stream).then((result) => {
         return { success: true, result: result }
       }).catch((err) => {
-        return { success: false, message: err.message }
+        return { success: false, message: err }
       });
     }
   });
