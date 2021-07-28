@@ -29,17 +29,6 @@ export const awsToIPFS = async (filename) => {
     Key: fileName,
   };
 
-  // console.log(fileName);
-  // console.log(s3);
-
-  // const s3Stream = s3.getObject({ 
-  //   Bucket: s3Bucket,
-  //   Key: fileName
-  // }, function(err, data) {
-  //   if (err) console.log(err, err.stack); // an error occurred
-  //   else     console.log(data);           // successful response
-  // }).createReadStream();
-
   s3.getObject(params, (err, data) => {
     if (err) {
       console.log(err, err.stack);
@@ -52,6 +41,17 @@ export const awsToIPFS = async (filename) => {
       });
     }
   });
+  
+  // console.log(fileName);
+  // console.log(s3);
+
+  // const s3Stream = s3.getObject({ 
+  //   Bucket: s3Bucket,
+  //   Key: fileName
+  // }, function(err, data) {
+  //   if (err) console.log(err, err.stack); // an error occurred
+  //   else     console.log(data);           // successful response
+  // }).createReadStream();  
 
   // form.append('file', s3Stream, {
   //   filename: fileName //required or it fails
@@ -86,7 +86,7 @@ export const awsToIPFS = async (filename) => {
     .then(function (response) {
       return {
         success: true,
-        data: response.data        
+        data: response.data
       };
     })
     .catch(function (error) {

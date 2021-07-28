@@ -179,22 +179,22 @@ mintRouter.get(
         filename: fileName //required or it fails
       });
 
-      var params = {
-        method: 'post',
-        url: `http://localhost:${process.env.PORT}/api/upload/`,
-        data: form,
-        headers: {
-          ...form.getHeaders()
-        },
-      };
-      await axios(params)
-        .then(function (response) {})
-        .catch(function (error) {
-          res.status(500).send({
-            success: false,
-            message: error.message,
-          })
-        })
+      // var params = {
+      //   method: 'post',
+      //   url: `http://localhost:${process.env.PORT}/api/upload/`,
+      //   data: form,
+      //   headers: {
+      //     ...form.getHeaders()
+      //   },
+      // };
+      // await axios(params)
+      //   .then(function (response) {})
+      //   .catch(function (error) {
+      //     res.status(500).send({
+      //       success: false,
+      //       message: error.message,
+      //     })
+      //   })
 
       // s3.getObject({
       //     Bucket: s3Bucket,
@@ -216,32 +216,57 @@ mintRouter.get(
       const apiKey = process.env.PINATA_KEY;
       const apiSecret = process.env.PINATA_SECRET;
 
-      let data1 = new FormData();
-      data1.append('file', fs.createReadStream(`${__dirname}/uploads/` + fileName));
-      var config = {
-        method: 'post',
-        url: url,        
-        headers: {
-          'pinata_api_key': apiKey,
-          'pinata_secret_api_key': apiSecret,
-          ...data1.getHeaders()
-        },
-        data: data1
-      };
-      await axios(config)
-        .then(function (response) {
-          res.send({
-            success: true,
-            result: response.data
-          })
+      // let data1 = new FormData();
+      // data1.append('file', fs.createReadStream(`${__dirname}/uploads/` + fileName));
+      
+      axios.post(
+        url,
+        form,
+        {
+          maxContentLength: 'Infinity',
+          headers: {
+            'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
+            'pinata_api_key': apiKey,
+            'pinata_secret_api_key': apiSecret
+          }
+        }
+      ).then(function (response) {
+        res.send({
+          success: true,
+          result: response.data
         })
-        .catch(function (error) {
-          // console.log(error)
-          res.status(500).send({
-            success: false,
-            message: error.message,
-          })
+      }).catch(function (error) {
+        res.status(500).send({
+          success: false,
+          message: error.message,
         })
+      });
+
+      // var config = {
+      //   method: 'post',
+      //   url: url,
+      //   headers: {
+      //     'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
+      //     'pinata_api_key': apiKey,
+      //     'pinata_secret_api_key': apiSecret,
+      //     // ...data1.getHeaders()
+      //   },
+      //   data: form
+      // };
+      // axios(config)
+      //   .then(function (response) {
+      //     res.send({
+      //       success: true,
+      //       result: response.data
+      //     })
+      //   })
+      //   .catch(function (error) {
+      //     // console.log(error)
+      //     res.status(500).send({
+      //       success: false,
+      //       message: error.message,
+      //     })
+      //   })
     }
     else {
       res.status(404).send({ message: 'Mint Request Not Found' });
