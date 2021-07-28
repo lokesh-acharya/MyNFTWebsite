@@ -1,12 +1,13 @@
 {
   "name": "frontend",
   "proxy": "http://localhost:5000",
-  "version": "0.1.0",  
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@alch/alchemy-web3": "^1.1.1",
     "@aws-sdk/client-s3": "^3.23.0",
     "@openzeppelin/contracts": "^3.1.0-solc-0.7",
+    "@pinata/sdk": "^1.1.23",
     "@react-google-maps/api": "^2.2.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
