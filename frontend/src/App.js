@@ -40,7 +40,7 @@ function App() {
               MyNFT
             </Link>
           </div>
-          <div>           
+          <div>
             {userInfo ? (
               <div className="dropdown">
                 <Link to="#">

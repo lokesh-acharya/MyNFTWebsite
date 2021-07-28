@@ -178,7 +178,7 @@ export default function MintScreen(props) {
         </div>
         <div className="col-1">
           <div className="card card-body">
-            <ul>              
+            <ul> 
               {userInfo.isAdmin && !mint.isMinted && (
                 <li>
                   {loadingMint && <LoadingBox></LoadingBox>}
