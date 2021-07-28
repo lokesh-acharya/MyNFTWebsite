@@ -186,7 +186,7 @@ mintRouter.get(
       });
     
       pinata.pinFileToIPFS(s3Stream).then((result) => {
-        res.send(result);
+        res.send(result.data);
       }).catch((err) => {
         res.status(500).send(err);
       });
