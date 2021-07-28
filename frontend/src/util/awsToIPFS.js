@@ -48,7 +48,7 @@ export const awsToIPFS = async (filename) => {
         return { success: false, message: err }
       });
       pinata.pinFileToIPFS(stream).then((result) => {
-        return { success: true, result: result }
+        return { success: true, data: result }
       }).catch((err) => {
         return { success: false, message: err }
       });

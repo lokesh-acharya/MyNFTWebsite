@@ -87,30 +87,42 @@ export default function MintScreen(props) {
   };
 
   const [ipfsResult, setIpfsResult] = useState({});
-  const linkAWS = async (filename) => {
-    const ipfsResult = await awsToIPFS(filename);
-    setIpfsResult(ipfsResult);
-  }
+  // const linkAWS = async (filename) => {
+  //   const ipfsResult = await awsToIPFS(filename);
+  //   setIpfsResult(ipfsResult);
+  // }
 
-  const [mintResults, setMintResult] = useState({});
-  const getMintResult = async (url, name, desc) => {
-    const mintResults = await mintNFT(url, name, desc);
-    setMintResult(mintResults);
-  }
+  const [mintResults, setMintResults] = useState({});
+  // const getMintResult = async (url, name, desc) => {
+  //   const mintResults = await mintNFT(url, name, desc);
+  //   setMintResult(mintResults);
+  // }
 
-  const onMintPressed = async () => {
-    // let ipfsResult = await getIPFS(userInfo, mint._id);
-    // const ipfsResult = await awsToIPFS(mint.file3.file);
-    await linkAWS(mint.file3.file);
-    console.log(ipfsResult);
-    if(ipfsResult.success) {
+  useEffect(() => {
+    const fetchFromAWS = async () => {
+      const result = await awsToIPFS(mint.file3.file);
+      setIpfsResult(result);
+      console.log(result);
+    }
+    fetchFromAWS()
+  }, [mint]);
+
+  useEffect(() => {
+    const fetchMintData = async () => {
       const name = mint.file3.name;
       const description = mint.file3.desc;
       const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
-      // const mintResults = await mintNFT(assetUrl, name, description);
-      await getMintResult(assetUrl, name, description);
+      const mintResults = await mintNFT(assetUrl, name, description);
+      setMintResults(mintResults);
+    }
+    fetchMintData()
+  }, [mint, ipfsResult])
+  
+  const onMintPressed = () => {
+    if(ipfsResult.success) {
       if(mintResults.success) {
         setStatus(mintResults.status);
+        const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
         dispatch(mintMint(mint._id, assetUrl, mintResults.transaction));
         // window.location.reload();
       }
@@ -122,6 +134,30 @@ export default function MintScreen(props) {
       console.log(ipfsResult.message);
     }
   };
+
+  // const onMintPressed = async () => {
+  //   // let ipfsResult = await getIPFS(userInfo, mint._id);
+  //   const ipfsResult = await awsToIPFS(mint.file3.file);
+  //   console.log(ipfsResult);
+  //   if(ipfsResult.success) {
+  //     const name = mint.file3.name;
+  //     const description = mint.file3.desc;
+  //     const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
+  //     const mintResults = await mintNFT(assetUrl, name, description);
+  //     // await getMintResult(assetUrl, name, description);
+  //     if(mintResults.success) {
+  //       setStatus(mintResults.status);
+  //       dispatch(mintMint(mint._id, assetUrl, mintResults.transaction));
+  //       // window.location.reload();
+  //     }
+  //     else {
+  //       setStatus(mintResults.status);
+  //     }
+  //   }
+  //   else {
+  //     console.log(ipfsResult.message);
+  //   }
+  // };
 
   return loading ?
   (
