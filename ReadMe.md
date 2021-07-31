@@ -1,11 +1,31 @@
 # MyNFT Project  
 Project involves implementation of a website to mint NFT tokens over ethereum testnet using smart contract deployed over Heroku server.  
 Using MERN stack to develop the platform and using AWS-s3 as secondary storage to store files.  
-Program involves following functionalities:    
--User registration and login 
--Admin login to view and edit users profiles and functionality to mint NFT using metamask wallet.  
--ChatBox for customer support i.e. user can send message admin and expext response in case admin is online while admin can see all online users and chat with them.   
+## Program involves following functionalities:    
+- User registration and login 
+- Admin login to view and edit users profiles and functionality to mint NFT using metamask wallet.  
+- ChatBox for customer support i.e. user can send message admin and expext response in case admin is online while admin can see all online users and chat with them.   
   
+## Installation for running locally  
+Requires [Node.js](https://nodejs.org/) v10+ to run.  
+```sh
+Replace script in package.json with :-  
+"scripts": {  
+    "build": "cd frontend && npm install && npm run build",  
+    "start": "nodemon --watch backend --exec node --experimental-modules backend/server.js"  
+  }  
+And add:-  
+"type": "module"  
+```
+  
+```sh
+git clone <repo-name>  
+cd MyNFTWebsite  
+npm install  
+cd frontend  
+npm install  
+npm build  
+```
 Following is the overall structure of program:-  
 ├── backend  
 │   ├── config.js  
