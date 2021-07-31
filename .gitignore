@@ -26,6 +26,5 @@ yarn-debug.log*
 yarn-error.log* 
 package-lock.json
 
-.env
 rootkey.csv
 secret.txt

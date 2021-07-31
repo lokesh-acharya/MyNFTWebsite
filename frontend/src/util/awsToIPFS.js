@@ -34,10 +34,9 @@ export const awsToIPFS = async (filename) => {
       return { success: false, message: err }
     }
     else {
-      let csvBlob = new Blob([data.Body.toString()])
-      // , {
-      //   type: 'text/csv;charset=utf-8;',
-      // });
+      let csvBlob = new Blob([data.Body.toString()], {
+        type: 'text/csv;charset=utf-8;',
+      });
       var stream = csvBlob.stream();
       const pinata = pinataSDK(apiKey, apiSecret);
       

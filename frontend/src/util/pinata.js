@@ -27,6 +27,7 @@ export const pinJSONToIPFS = async (JSONBody) => {
     });
 };
 
+/*
 export const pinFileToIPFS = async (stream) => {
   const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
   return axios
@@ -53,3 +54,4 @@ export const pinFileToIPFS = async (stream) => {
       }
     });
 }
+*/
