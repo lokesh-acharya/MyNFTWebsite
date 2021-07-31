@@ -16,16 +16,36 @@ Replace script in package.json with :-
   }  
 And add:-  
 "type": "module"  
-```
+```  
+## 1. Clone Repository  
+```sh  
+$ git clone <repo-name>    
+$ cd MyNFTWebsite  
+```  
   
+## 2. Setup MongoDB      
+A. Local MongoDB    
+Install it from "https://www.mongodb.com/try/download/community"    
+Create .env file in root folder    
+B. Set MONGODB_URL=mongodb://localhost/mynftwebsite    
+Atlas Cloud MongoDB  
+Create database at https://cloud.mongodb.com  
+Create .env file in root folder  
+Set MONGODB_URL=mongodb+srv://your-db-connection  
+
+## 3. Run Backend  
 ```sh
-git clone <repo-name>  
-cd MyNFTWebsite  
-npm install  
-cd frontend  
-npm install  
-npm build  
+$ npm install
+$ npm start
 ```
+## 4. Run frontend  
+```sh
+# open new terminal  
+$ cd frontend  
+$ npm install  
+$ npm start  
+```  
+
 Following is the overall structure of program:-  
 ├── backend  
 │   ├── config.js  
