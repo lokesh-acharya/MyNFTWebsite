@@ -186,7 +186,7 @@ export default function MintScreen(props) {
           console.log(err);
         });
         pinata.pinFileToIPFS(stream).then((result) => {
-          // ipfsResult = { success: true, data: result }          
+          ipfsResult = { success: true, data: result }          
           console.log(ipfsResult);
           const name = mint.file3.name;
           const description = mint.file3.desc;
@@ -203,7 +203,8 @@ export default function MintScreen(props) {
               } 
             });
         }).catch((err) => {
-          ipfsResult = { success: false, message: err }
+          // ipfsResult = { success: false, message: err }
+          console.log(err);
         });
       }
     });
