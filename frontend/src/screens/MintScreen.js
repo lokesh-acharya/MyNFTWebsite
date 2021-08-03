@@ -273,7 +273,7 @@ export default function MintScreen(props) {
         return { success: false, message: err }
       }
       else {
-        var stream = data.createReadStream();
+        var stream = data.Body.createReadStream();
         const pinata = pinataSDK(apiKey, apiSecret);        
         pinata.testAuthentication()
           .then((result) => console.log(result))
