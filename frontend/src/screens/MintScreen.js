@@ -267,13 +267,14 @@ export default function MintScreen(props) {
       Key: fileName,
     };
     var ipfsResult;
-    s3.getObject(params, (err, data) => {
-      if (err) {
-        console.log(err, err.stack);
-        return { success: false, message: err }
-      }
-      else {
-        var stream = data.Body.createReadStream();
+    let stream = s3.getObject(params).createReadStream();    
+    // s3.getObject(params, (err, data) => {
+    //   if (err) {
+    //     console.log(err, err.stack);
+    //     return { success: false, message: err }
+    //   }
+    //   else {
+    //     var stream = data.Body.createReadStream();
         const pinata = pinataSDK(apiKey, apiSecret);        
         pinata.testAuthentication()
           .then((result) => console.log(result))
@@ -298,7 +299,7 @@ export default function MintScreen(props) {
           console.log(err);
         });
       }
-    });
+    // });
   };
 
   // const onMintPressed = async () => {
