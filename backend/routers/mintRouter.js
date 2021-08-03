@@ -291,12 +291,14 @@ mintRouter.get(
       };
       s3.getObject(params, (err, data) => {
         if (err) {
-          // console.log(err, err.stack);          
-          // return { success: false, message: err }
           res.status(500).end();
         }
         else {
-          var stream = data.createReadStream()
+          let csvBlob = new Blob([data.Body.toString()], {
+            type: 'text/csv;charset=utf-8;',
+          });
+          var stream = csvBlob.stream();
+          // var stream = data.createReadStream();
           const pinata = pinataSDK(apiKey, apiSecret);          
           pinata.pinFileToIPFS(stream).then((result) => {
             res.send(result);
