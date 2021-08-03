@@ -243,28 +243,87 @@ export default function MintScreen(props) {
   // };
 
   const onMintPressed = async () => {
-    await getIPFS(userInfo, mint._id)
-      .then((result) => {
-        var ipfsResult = { success: true, data: result }          
-        console.log(ipfsResult);
-        const name = mint.file3.name;
-        const description = mint.file3.desc;
-        const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
-        mintNFT(assetUrl, name, description)
-          .then((value) => {
-            if(value.success) {
-              setStatus(value.status);
-              dispatch(mintMint(mint._id, assetUrl, value.transaction));            
-            }
-            else {
-              setStatus(value.status);
-            }
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const aws = require('aws-sdk');
+    const pinataSDK = require('@pinata/sdk');
+    
+    const s3AccessKeyId = process.env.REACT_APP_ID;
+    const s3AccessSecret = process.env.REACT_APP_SECRET;
+    const s3Region = process.env.REACT_APP_REGION;
+    const s3Bucket = process.env.REACT_APP_BUCKET_NAME;
+    const apiKey = process.env.REACT_APP_PINATA_KEY;
+    const apiSecret = process.env.REACT_APP_PINATA_SECRET;
+
+    const fileName = mint.file3.file;
+    const s3 = new aws.S3({
+      credentials: {
+        secretAccessKey: s3AccessSecret,
+        accessKeyId: s3AccessKeyId,
+        region: s3Region,
+      },
+    });
+
+    const params = {
+      Bucket: s3Bucket,
+      Key: fileName,
+    };
+    var ipfsResult;
+    s3.getObject(params, (err, data) => {
+      if (err) {
+        console.log(err, err.stack);
+        return { success: false, message: err }
+      }
+      else {
+        var stream = data.createReadStream();
+        const pinata = pinataSDK(apiKey, apiSecret);        
+        pinata.testAuthentication()
+          .then((result) => console.log(result))
+          .catch((err) => console.log(err));
+        pinata.pinFileToIPFS(stream).then((result) => {
+          ipfsResult = { success: true, data: result }          
+          console.log(ipfsResult);
+          const name = mint.file3.name;
+          const description = mint.file3.desc;
+          const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
+          mintNFT(assetUrl, name, description)
+            .then((value) => {
+              if(value.success) {
+                setStatus(value.status);
+                dispatch(mintMint(mint._id, assetUrl, value.transaction));
+              }
+              else {
+                setStatus(value.status);
+              }
+            });
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
+    });
   };
+
+  // const onMintPressed = async () => {
+  //   await getIPFS(userInfo, mint._id)
+  //     .then((result) => {
+  //       var ipfsResult = { success: true, data: result }          
+  //       console.log(ipfsResult);
+  //       const name = mint.file3.name;
+  //       const description = mint.file3.desc;
+  //       const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
+  //       mintNFT(assetUrl, name, description)
+  //         .then((value) => {
+  //           if(value.success) {
+  //             setStatus(value.status);
+  //             dispatch(mintMint(mint._id, assetUrl, value.transaction));            
+  //           }
+  //           else {
+  //             setStatus(value.status);
+  //           }
+  //         });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   return loading ?
   (
