@@ -182,47 +182,63 @@ export default function MintScreen(props) {
         .then((result) => {
           console.log(result)
         }).catch((err) => {
-          ipfsResult = { success: false, message: err }
+          // ipfsResult = { success: false, message: err };
+          console.log(err);
         });
         pinata.pinFileToIPFS(stream).then((result) => {
-          return { success: true, data: result }
+          // ipfsResult = { success: true, data: result }          
+          console.log(ipfsResult);
+          const name = mint.file3.name;
+          const description = mint.file3.desc;
+          const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
+          mintNFT(assetUrl, name, description)
+            .then((value) => {
+              if(value.success) {
+                setStatus(value.status);
+                dispatch(mintMint(mint._id, assetUrl, value.transaction));
+                // window.location.reload();
+              }
+              else {
+                setStatus(value.status);
+              } 
+            });
         }).catch((err) => {
           ipfsResult = { success: false, message: err }
         });
       }
     });
     // const ipfsResult = await getAWStoIPFS();
-    console.log(ipfsResult);
-    if(ipfsResult.success) {
-      const name = mint.file3.name;
-      const description = mint.file3.desc;
-      const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
-      // const mintResults = await mintNFT(assetUrl, name, description);
-      // await getMintResult(assetUrl, name, description);
-      // const mintResults = await getMintResult()
-      await mintNFT(assetUrl, name, description)
-        .then((value) => {
-          if(value.success) {
-            setStatus(value.status);
-            dispatch(mintMint(mint._id, assetUrl, value.transaction));
-            // window.location.reload();
-          }
-          else {
-            setStatus(value.status);
-          } 
-        });
-      // if(mintResults.success) {
-      //   setStatus(mintResults.status);
-      //   dispatch(mintMint(mint._id, assetUrl, mintResults.transaction));
-      //   // window.location.reload();
-      // }
-      // else {
-      //   setStatus(mintResults.status);
-      // }
-    }
-    else {
-      console.log(ipfsResult.message);
-    }
+    // console.log(ipfsResult);
+    // if(ipfsResult.success) {
+    //   const name = mint.file3.name;
+    //   const description = mint.file3.desc;
+    //   const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
+    //   // const mintResults = await mintNFT(assetUrl, name, description);
+    //   // await getMintResult(assetUrl, name, description);
+    //   // const mintResults = await getMintResult()
+    //   await mintNFT(assetUrl, name, description)
+    //     .then((value) => {
+    //       if(value.success) {
+    //         setStatus(value.status);
+    //         dispatch(mintMint(mint._id, assetUrl, value.transaction));
+    //         // window.location.reload();
+    //       }
+    //       else {
+    //         setStatus(value.status);
+    //       } 
+    //     });
+    //   // if(mintResults.success) {
+    //   //   setStatus(mintResults.status);
+    //   //   dispatch(mintMint(mint._id, assetUrl, mintResults.transaction));
+    //   //   // window.location.reload();
+    //   // }
+    //   // else {
+    //   //   setStatus(mintResults.status);
+    //   // }
+    // }
+    // else {
+    //   console.log(ipfsResult.message);
+    // }
   };
 
   return loading ?
