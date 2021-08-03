@@ -123,17 +123,17 @@ export default function MintScreen(props) {
   //   }
   // }
   
-  const getAWStoIPFS = async() => {
-    const data = await awsToIPFS(mint.file3.file);
-    return data;
-  }
-  const getMintResult = async() => {
-    const name = mint.file3.name;
-    const description = mint.file3.desc;
-    const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
-    const mintResults = await mintNFT(assetUrl, name, description);
-    return mintResults; 
-  }
+  // const getAWStoIPFS = async() => {
+  //   const data = await awsToIPFS(mint.file3.file);
+  //   return data;
+  // }
+  // const getMintResult = async() => {
+  //   const name = mint.file3.name;
+  //   const description = mint.file3.desc;
+  //   const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
+  //   const mintResults = await mintNFT(assetUrl, name, description);
+  //   return mintResults; 
+  // }
 
   const onMintPressed = async () => {
     // let ipfsResult = await getIPFS(userInfo, mint._id);
