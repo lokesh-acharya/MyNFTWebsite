@@ -135,7 +135,7 @@ mintRouter.get(
       if(result.sucess) {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(result.data));
-      } 
+      }
       else {
         // res.setHeader('Content-Type', 'application/json');
         res.status(500).send({ message: JSON.stringify(result.data) });
@@ -258,5 +258,58 @@ mintRouter.get(
     }
   })
 );
+
+mintRouter.get(
+  '/ifps/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const mint = await Mint.findById(req.params.id);
+    if(mint) {
+      const aws = require('aws-sdk');
+      const pinataSDK = require('@pinata/sdk');
+      
+      const s3AccessKeyId = process.env.APP_ID;
+      const s3AccessSecret = process.env.SECRET;
+      const s3Region = process.env.REGION;
+      const s3Bucket = process.env.BUCKET_NAME;
+      const apiKey = process.env.PINATA_KEY;
+      const apiSecret = process.env.PINATA_SECRET;
+
+      const fileName = mint.file3.file;
+      const s3 = new aws.S3({
+        credentials: {
+          secretAccessKey: s3AccessSecret,
+          accessKeyId: s3AccessKeyId,
+          region: s3Region,
+        },
+      });
+
+      const params = {
+        Bucket: s3Bucket,
+        Key: fileName,
+      };
+      s3.getObject(params, (err, data) => {
+        if (err) {
+          // console.log(err, err.stack);          
+          // return { success: false, message: err }
+          res.status(500).end();
+        }
+        else {
+          var stream = data.createReadStream()
+          const pinata = pinataSDK(apiKey, apiSecret);          
+          pinata.pinFileToIPFS(stream).then((result) => {
+            res.send(result);
+          }).catch((err) => {
+            res.status(500).end();
+          });
+        }
+      });
+    }
+    else {
+      res.status(404).send({ message: 'Mint Request Not Found' });
+    }
+  })
+)
 
 export default mintRouter;

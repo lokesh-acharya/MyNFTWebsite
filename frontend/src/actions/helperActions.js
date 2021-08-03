@@ -44,7 +44,7 @@ export const getIPFS = async(userInfo, mintId) => {
   try {
     const { data } = await Axios({
       method: 'get',
-      url: `/api/mints/${mintId}/ipfs`,
+      url: `/api/mints/ipfs/${mintId}`,
       headers: { 
         Authorization: `Bearer ${userInfo.token}`,
       },
