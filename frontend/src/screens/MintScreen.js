@@ -14,7 +14,7 @@ import {
   getCurrentWalletConnected,
   mintNFT,
 } from '../util/interact.js';
-import { awsToIPFS } from '../util/awsToIPFS.js'
+import { awsToIPFS } from '../util/awsToIPFS.js';
 
 export default function MintScreen(props) {
   const mintId = props.match.params.id;
@@ -280,6 +280,8 @@ export default function MintScreen(props) {
     //   }
     //   else {
     //     var stream = data.Body.createReadStream();
+    //   }
+    // });
         const pinata = pinataSDK(apiKey, apiSecret);        
         pinata.testAuthentication()
           .then((result) => console.log(result))
@@ -302,9 +304,7 @@ export default function MintScreen(props) {
             });
         }).catch((err) => {
           console.log(err);
-        });
-      }
-    // });
+        });    
   };
 
   // const onMintPressed = async () => {
