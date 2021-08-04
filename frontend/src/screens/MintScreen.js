@@ -267,7 +267,12 @@ export default function MintScreen(props) {
       Key: fileName,
     };
     var ipfsResult;
-    let stream = s3.getObject(params).createReadStream();    
+    let stream = s3.getObject(params).createReadStream();
+    s3.getObject(params)
+      .createReadStream()
+      .on('error', (e) => {
+        console.log('No such key exists');
+      })
     // s3.getObject(params, (err, data) => {
     //   if (err) {
     //     console.log(err, err.stack);
