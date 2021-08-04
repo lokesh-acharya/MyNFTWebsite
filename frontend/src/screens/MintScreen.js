@@ -290,25 +290,39 @@ export default function MintScreen(props) {
         pinata.testAuthentication()
           .then((result) => console.log(result))
           .catch((err) => console.log(err));
-        pinata.pinFileToIPFS(stream).then((result) => {
-          ipfsResult = { success: true, data: result }          
-          console.log(ipfsResult);
-          const name = mint.file3.name;
-          const description = mint.file3.desc;
-          const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
-          mintNFT(assetUrl, name, description)
-            .then((value) => {
-              if(value.success) {
-                setStatus(value.status);
-                dispatch(mintMint(mint._id, assetUrl, value.transaction));
+        
+        const options = {
+          pinataMetadata: {
+              name: fileName,
+              keyvalues: {
+                  key: 'Test',
               }
-              else {
-                setStatus(value.status);
-              }
-            });
-        }).catch((err) => {
-          console.log(err);
-        });   
+          },
+          pinataOptions: {
+              cidVersion: 0
+          }
+        };
+        pinata.pinFileToIPFS(stream, options)
+          .then((result) => {
+            ipfsResult = { success: true, data: result }          
+            console.log(ipfsResult);
+            const name = mint.file3.name;
+            const description = mint.file3.desc;
+            const assetUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResult.data.IpfsHash}`;
+            mintNFT(assetUrl, name, description)
+              .then((value) => {
+                if(value.success) {
+                  setStatus(value.status);
+                  dispatch(mintMint(mint._id, assetUrl, value.transaction));
+                }
+                else {
+                  setStatus(value.status);
+                }
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     });
   };
