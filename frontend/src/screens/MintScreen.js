@@ -268,20 +268,24 @@ export default function MintScreen(props) {
     };
     var ipfsResult;
     // let stream = s3.getObject(params).createReadStream();
-    let stream = s3.getObject(params)
-      .createReadStream()
-      .on('error', (e) => {
-        console.log('No such key exists');
-      })
-    // s3.getObject(params, (err, data) => {
-    //   if (err) {
-    //     console.log(err, err.stack);
-    //     return { success: false, message: err }
-    //   }
-    //   else {
-    //     var stream = data.Body.createReadStream();
-    //   }
-    // });
+    // let stream = s3.getObject(params)
+    //   .createReadStream()
+    //   .on('error', (e) => {
+    //     console.log('No such key exists');
+    //   })
+
+    s3.getObject(params, (err, data) => {
+      if (err) {
+        console.log(err, err.stack);
+        return { success: false, message: err }
+      }
+      else {
+        // var stream = data.Body.createReadStream();
+        let csvBlob = new Blob([data.Body.toString()], {
+          type: 'text/csv;charset=utf-8;',
+        });
+        var stream = csvBlob.stream();
+
         const pinata = pinataSDK(apiKey, apiSecret);        
         pinata.testAuthentication()
           .then((result) => console.log(result))
@@ -304,7 +308,9 @@ export default function MintScreen(props) {
             });
         }).catch((err) => {
           console.log(err);
-        });    
+        });   
+      }
+    });
   };
 
   // const onMintPressed = async () => {
