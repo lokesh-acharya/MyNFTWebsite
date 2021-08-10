@@ -100,7 +100,7 @@ export default function MintScreen(props) {
   //   }
   //   fetchMintData()
   // }, [mint, ipfsResult])
-  
+
   // const onMintPressed = async () => {
   //   if(!startMint) setStartMint(true);
   //   if(ipfsResult.success) {
@@ -122,7 +122,7 @@ export default function MintScreen(props) {
   //     console.log(ipfsResult.message);
   //   }
   // }
-  
+
   // const getAWStoIPFS = async() => {
   //   const data = await awsToIPFS(mint.file3.file);
   //   return data;
@@ -176,8 +176,7 @@ export default function MintScreen(props) {
           type: 'text/csv;charset=utf-8;',
         });
         var stream = csvBlob.stream();
-        const pinata = pinataSDK(apiKey, apiSecret);
-        
+        const pinata = pinataSDK(apiKey, apiSecret);        
         pinata.testAuthentication()
         .then((result) => {
           console.log(result)
@@ -241,7 +240,6 @@ export default function MintScreen(props) {
     //   console.log(ipfsResult.message);
     // }
   };
-
   // const onMintPressed = async () => {
   //   const aws = require('aws-sdk');
   //   const pinataSDK = require('@pinata/sdk');
@@ -290,7 +288,7 @@ export default function MintScreen(props) {
   //       pinata.testAuthentication()
   //         .then((result) => console.log(result))
   //         .catch((err) => console.log(err));
-        
+  
   //       const options = {
   //         pinataMetadata: {
   //             name: fileName,
